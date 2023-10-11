@@ -1,7 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Codesome.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+// builder.Services.AddDbContext<CodesomeContext>(options =>
+// {
+//     options.UseSqlServer();
+// });
+builder.Services.AddDbContext<CodesomeContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CodesomeContext") ?? throw new InvalidOperationException("Connection string 'CodesomeContext' not found.")));
 
 var app = builder.Build();
 
