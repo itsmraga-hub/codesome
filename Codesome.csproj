@@ -9,9 +9,15 @@
     <ItemGroup>
       <Folder Include="Pages\Courses\" />
       <Folder Include="Pages\Movies\" />
+      <Folder Include="Pages\Students\" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.12">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.12" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.12">
@@ -19,7 +25,24 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.10" />
+      <PackageReference Include="MySql.EntityFrameworkCore" Version="7.0.5" />
       <PackageReference Include="MySqlConnector" Version="2.3.0-beta.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="CodesomeELearning\Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\Views\Shared\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\Views\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\Views\_ViewStart.cshtml" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\appsettings.json" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\obj\CodesomeELearning.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="CodesomeELearning\Properties\launchSettings.json" />
     </ItemGroup>
 
 </Project>

@@ -14,6 +14,22 @@ namespace Codesome.Data
         {
         }
 
+        // private readonly string connectionString = "";
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+     
+          //      optionsBuilder.UseMySQL("Server=localhost;User ID=raga;Password=root;Database=codesome;");
+        //}
+
         public DbSet<Codesome.Models.Course> Course { get; set; } = default!;
+
+        // private readonly string connectionString = "";
+        // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+     
+          //      optionsBuilder.UseMySQL("Server=localhost;User ID=raga;Password=root;Database=codesome;");
+        //}
+
+        public DbSet<Codesome.Models.Student> Student { get; set; } = default!;
     }
 }

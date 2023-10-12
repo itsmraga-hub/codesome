@@ -1,34 +1,40 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Codesome.Data;
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorPages();
-// builder.Services.AddDbContext<CodesomeContext>(options =>
+// using System.Configuration;
+// using Microsoft.EntityFrameworkCore;
+// using Microsoft.Extensions.DependencyInjection;
+// using Codesome.Data;
+// using MySqlConnector;
+//
+// var builder = WebApplication.CreateBuilder(args);
+//
+// // Add services to the container.
+// builder.Services.AddRazorPages();
+//
+// builder.Services.AddDbContext<CodesomeContext>(options => 
+//     options.UseMySQL(
+//         builder.Configuration.GetConnectionString("CodesomeContext") ?? throw new InvalidOperationException("Connection string 'CodesomeContext' not found.")
+//         )
+// );
+//
+// // builder.Services.AddTransient<MySqlConnection>(options => 
+// //     new MySqlConnection(builder.Configuration.GetConnectionString("CodesomeContext")));
+//
+// var app = builder.Build();
+//
+// // Configure the HTTP request pipeline.
+// if (!app.Environment.IsDevelopment())
 // {
-//     options.UseSqlServer();
-// });
-builder.Services.AddDbContext<CodesomeContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CodesomeContext") ?? throw new InvalidOperationException("Connection string 'CodesomeContext' not found.")));
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
-
-app.Run();
+//     app.UseExceptionHandler("/Error");
+//     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+//     app.UseHsts();
+// }
+//
+// app.UseHttpsRedirection();
+// app.UseStaticFiles();
+//
+// app.UseRouting();
+//
+// app.UseAuthorization();
+//
+// app.MapRazorPages();
+//
+// app.Run();
