@@ -1,0 +1,45 @@
+﻿@page "/register"
+@layout AuthLayout
+@inject NavigationManager NavigationManager
+@using System.ComponentModel.DataAnnotations
+@using codesome.Data.Models
+
+
+<PageTitle>Sign Up</PageTitle>
+
+<MudGrid>
+    <MudItem>
+        <MudText Typo="Typo.h4"><MudNavLink Href="/" Match="NavLinkMatch.Prefix">Codesome</MudNavLink></MudText>
+        <MudText Typo="Typo.h4">Registration</MudText>
+    </MudItem>
+</MudGrid>
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="12">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="First name" HelperText="Max. 8 characters"
+                                  @bind-Value="model.FirstName" For="@(() => model.FirstName)" />
+                    <MudTextField Label="Last name" HelperText="Max. 8 characters"
+                                  @bind-Value="model.LastName" For="@(() => model.LastName)" />
+                    <MudTextField Label="User name" HelperText="Max. 8 characters"
+                                  @bind-Value="model.Username" For="@(() => model.Username)" />
+                    <MudTextField Label="User name" HelperText="Max. 8 characters"
+                                  @bind-Value="model.PhoneNumber" For="@(() => model.PhoneNumber)" />
+                    <MudNumericField Label="Age" HelperText="Max. 8 characters"
+                                  @bind-Value="model.Age" For="@(() => model.Age)" />
+                    <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="model.Email" For="@(() => model.Email)" />
+                    <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                  @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
+                    <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
+                                  @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
