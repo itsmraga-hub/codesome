@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
-using Microsoft.EntityFrameworkCore.Update.Internal;
+using Newtonsoft.Json;
 using System.Security.Claims;
 
 namespace codesome.Authentication
@@ -8,12 +8,14 @@ namespace codesome.Authentication
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         private readonly ProtectedSessionStorage _sessionStorage;
+        private readonly ILogger<CustomAuthenticationStateProvider> _logger;
 
         private ClaimsPrincipal _user = new ClaimsPrincipal(new ClaimsIdentity());
 
-        public CustomAuthenticationStateProvider(ProtectedSessionStorage sessionStorage)
+        public CustomAuthenticationStateProvider(ProtectedSessionStorage sessionStorage, ILogger<CustomAuthenticationStateProvider> logger)
         {
             _sessionStorage = sessionStorage;
+            _logger = logger;
         }
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
@@ -40,6 +42,10 @@ namespace codesome.Authentication
 
         public async Task UpdateAuthenticationState(UserSession userSession)
         {
+            Console.WriteLine("UpdateAuthenticationState");
+            Console.WriteLine(JsonConvert.SerializeObject(userSession));
+            _logger.LogInformation("UpdateAuthenticationState");
+            _logger.LogInformation(JsonConvert.SerializeObject(userSession));
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal();
             if (userSession == null)
             {

@@ -1,8 +1,12 @@
 ﻿@page "/register"
 @layout AuthLayout
-@inject NavigationManager NavigationManager
 @using System.ComponentModel.DataAnnotations
 @using codesome.Data.Models
+@using codesome.Data.Services.Users
+@inject NavigationManager NavigationManager
+@inject IUserService _userService
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject IJSRuntime JSRuntime
 
 
 <PageTitle>Sign Up</PageTitle>
@@ -25,7 +29,7 @@
                                   @bind-Value="model.LastName" For="@(() => model.LastName)" />
                     <MudTextField Label="User name" HelperText="Max. 8 characters"
                                   @bind-Value="model.Username" For="@(() => model.Username)" />
-                    <MudTextField Label="User name" HelperText="Max. 8 characters"
+                    <MudTextField Label="Phone Number" HelperText="Max. 8 characters"
                                   @bind-Value="model.PhoneNumber" For="@(() => model.PhoneNumber)" />
                     <MudNumericField Label="Age" HelperText="Max. 8 characters"
                                   @bind-Value="model.Age" For="@(() => model.Age)" />

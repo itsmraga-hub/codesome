@@ -1,5 +1,5 @@
 ﻿@page "/"
-@layout AuthLayout
+@layout MainLayout
 
 @using System.Net.Http.Headers;
 @inject HttpClient Http
@@ -9,16 +9,42 @@
 
 <PageTitle>Codesome</PageTitle>
 
-<MudAppBar Elevation="4" Dense="true">
-    <MudText Style="color: black">Codesome</MudText>
-    <MudSpacer />
+<AuthorizeView>
+    <Authorized>
+        @* <MudAppBar Elevation="4" Dense="true">
+            <MudText Style="color: black">Codesome</MudText>
+            <MudSpacer />
+            <div class="d-flex flex-row align-center gap-6 justify-center">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LogOut" Class="ml-auto">Login</MudButton>
 
-    <div class="d-flex flex-row align-center gap-6 justify-center">
-        <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
+            </div>
+        </MudAppBar> *@
+        <MudGrid>
+            <MudItem>
+                <MudText Typo="Typo.h4">Welcome to Codesome</MudText>
+            </MudItem>
+        </MudGrid>
+    </Authorized>
+    <NotAuthorized>
+        <MudAppBar Elevation="4" Dense="true">
+            <MudText Style="color: black">Codesome</MudText>
+            <MudSpacer />
 
-        <MudNavLink Href="/login" Match="NavLinkMatch.All">Login</MudNavLink>
+            <div class="d-flex flex-row align-center gap-6 justify-center">
+                <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
 
-@*         <MudButton Class="rounded-3" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Large" OnClick="Register">Register</MudButton>
-        <MudButton Class="rounded-3" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Large" OnClick="Login">Login</MudButton> *@
-    </div>
-</MudAppBar>
+                <MudNavLink Href="/login" Match="NavLinkMatch.All">Login</MudNavLink>
+            </div>
+        </MudAppBar>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+    private async Task LogOut()
+    {
+        // var authState = await authenticationState;
+    }
+}

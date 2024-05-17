@@ -300,3 +300,4 @@ D:\Projects\PersonalProjects\codesome\bin\Debug\net6.0\Blazored.LocalStorage.dll
 D:\Projects\PersonalProjects\codesome\bin\Debug\net6.0\Blazorise.dll
 D:\Projects\PersonalProjects\codesome\bin\Debug\net6.0\Blazorise.Licensing.dll
 D:\Projects\PersonalProjects\codesome\bin\Debug\net6.0\Blazorise.Snackbar.dll
+D:\Projects\PersonalProjects\codesome\obj\Debug\net6.0\codesome.sourcelink.json

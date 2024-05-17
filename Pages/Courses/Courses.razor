@@ -1,4 +1,5 @@
 ﻿@page "/courses"
+@attribute [Authorize]
 <PageTitle>Courses</PageTitle>
 
 @using codesome.Data
@@ -6,6 +7,7 @@
 @using codesome.Data.Services;
 @using codesome.Data.Services.Courses
 @inject ICoursesService _coursesService
+
 
 <h1>Courses</h1>
 

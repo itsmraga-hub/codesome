@@ -1,5 +1,7 @@
-﻿using codesome.Data.Models;
+﻿using codesome.Authentication;
+using codesome.Data.Models;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 using System.ComponentModel.DataAnnotations;
 
 namespace codesome.Pages.Auth
@@ -44,7 +46,7 @@ namespace codesome.Pages.Auth
 
         }
 
-        private void OnValidSubmit(EditContext context)
+        private async void OnValidSubmit(EditContext context)
         {
             User user = new User
             {
@@ -57,8 +59,19 @@ namespace codesome.Pages.Auth
             user.UserName = model.Username;
             user.EmailConfirmed = true;
             user.age = model.Age;
-            success = true;
-            StateHasChanged();
+            if (model.Password == model.Password2)
+            {
+                user.PasswordHash = model.Password;
+                var res = await _userService.CreateUserAsync(user);
+                var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
+                await customAuthenticationStateProvider!.UpdateAuthenticationState(res);
+                NavigationManager.NavigateTo("/", true);
+            }
+            else
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "Passwords do not match");
+            }
+            
         }
     }
 }

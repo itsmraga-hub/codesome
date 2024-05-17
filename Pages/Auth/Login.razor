@@ -1,7 +1,15 @@
 ﻿@page "/login"
-@layout AuthLayout
-@inject NavigationManager NavigationManager
+@layout MainLayout
+@inject IJSRuntime JSRuntime
 @using System.ComponentModel.DataAnnotations
+@using Newtonsoft.Json
+@using codesome.Authentication
+@using codesome.Data.Services.Users
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@inject IUserService _userService
+@inject AuthenticationStateProvider authenticationStateProvider
+
 
 
 <PageTitle>Login</PageTitle>
@@ -24,7 +32,7 @@
                                   @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>
@@ -37,9 +45,6 @@
 
     public class RegisterAccountForm
     {
-        [Required]
-        [StringLength(8, ErrorMessage = "Name length can't be more than 8.")]
-        public string Username { get; set; } = "";
 
         [Required]
         [EmailAddress]
@@ -49,16 +54,20 @@
         [StringLength(30, ErrorMessage = "Password must be at least 8 characters long.", MinimumLength = 8)]
         public string Password { get; set; } = "";
 
-        [Required]
-        [Compare(nameof(Password))]
-        public string Password2 { get; set; } = "";
-
     }
 
-    private void OnValidSubmit(EditContext context)
+    private async void OnValidSubmit(EditContext context)
     {
-        success = true;
-        StateHasChanged();
+        var res = await _userService.AuthenticateUser(model.Email, model.Password);
+        if (res == null)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "Invalid email or password. Please try again.");
+            return;
+        };
+        Console.WriteLine(JsonConvert.SerializeObject(res));
+        var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
+        await customAuthenticationStateProvider!.UpdateAuthenticationState(res);
+        NavigationManager.NavigateTo("/");
     }
 
 }
