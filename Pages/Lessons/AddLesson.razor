@@ -1,0 +1,88 @@
+﻿@page "/lessons/new"
+<PageTitle>Create Lesson</PageTitle>
+
+@using codesome.Data
+@using codesome.Data.Courses
+@using codesome.Data.Models
+@using codesome.Data.Services.Lessons
+@using codesome.Data.Services.Courses
+@inject ILessonsService _lessonsService
+@inject ICoursesService _coursesService
+@inject NavigationManager NavigationManager
+
+<h1>Create Lesson</h1>
+
+<form>
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" id="title" @bind="newLesson.Title" />
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea class="form-control" id="description" @bind="newLesson.Description"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="videoUrl">Video URL:</label>
+        <input type="text" class="form-control" id="videoUrl" @bind="newLesson.VideoUrl" />
+    </div>
+    <div class="form-group">
+        <label for="duration">Duration (minutes):</label>
+        <input type="number" class="form-control" id="duration" @bind="newLesson.Duration" />
+    </div>
+    <div class="form-group">
+        <label for="order">Order:</label>
+        <input type="number" class="form-control" id="order" @bind="newLesson.Order" />
+    </div>
+    <div class="form-group">
+        <label for="courseId">Select Course:</label>
+        <select class="form-control" id="courseId" @bind="newLesson.CourseId">
+            <option value="">-- Select Course --</option>
+            @foreach (var course in courses)
+            {
+                <option value="@course.Id">@course.Title</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary" @onclick="CreateLesson">Create</button>
+</form>
+
+@if (isCreating)
+{
+    <p><em>Creating...</em></p>
+}
+
+@code {
+    private Lesson newLesson = new Lesson();
+    private List<Course> courses = new List<Course>();
+    private bool isCreating = false;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await _coursesService.GetCoursesAsync();
+        if (res != null)
+        {
+            courses = res;
+        }
+    }
+
+
+    private async Task CreateLesson()
+    {
+        try
+        {
+            isCreating = true;
+            await _lessonsService.CreateLessonAsync(newLesson);
+            // Optionally, you can navigate to the "Courses" page or display a success message
+            NavigationManager.NavigateTo("/courses");
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions (e.g., display an error message)
+        }
+        finally
+        {
+            isCreating = false;
+        }
+    }
+}

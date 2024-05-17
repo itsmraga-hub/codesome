@@ -1,0 +1,54 @@
+﻿@page "/courses"
+<PageTitle>Courses</PageTitle>
+
+@using codesome.Data
+@using codesome.Data.Courses
+@using codesome.Data.Services;
+@using codesome.Data.Services.Courses
+@inject ICoursesService _coursesService
+
+<h1>Courses</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (courses == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var course in courses)
+            {
+                <tr>
+                    <td>@course.Id</td>
+                    <td>@course.Title</td>
+                    <td>@course.Description</td>
+                    <td>@course.Title</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Course> courses = new List<Course>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await _coursesService.GetCoursesAsync();
+        if (res != null)
+        {
+            courses = res;
+        }
+    }
+}

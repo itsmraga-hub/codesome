@@ -1,0 +1,60 @@
+﻿@page "/courses/new"
+<PageTitle>Courses</PageTitle>
+
+@using codesome.Data
+@using codesome.Data.Courses
+@using codesome.Data.Services;
+@using codesome.Data.Services.Courses
+@inject ICoursesService _coursesService
+@inject NavigationManager NavigationManager
+
+<h1>Create Course</h1>
+
+<form>
+    <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" class="form-control" id="title" @bind="newCourse.Title" />
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea class="form-control" id="description" @bind="newCourse.Description"></textarea>
+    </div>
+    @* <div class="form-group">
+        <label for="category">Category:</label>
+        <input type="text" class="form-control" id="category" @bind="newCourse.Category" />
+    </div> *@
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" class="form-control" id="price" @bind="newCourse.Price" />
+    </div>
+    <button type="submit" class="btn btn-primary" @onclick="CreateCourse">Create</button>
+</form>
+
+@if (isCreating)
+{
+    <p><em>Creating...</em></p>
+}
+
+@code {
+    private Course newCourse = new Course();
+    private bool isCreating = false;
+
+    private async Task CreateCourse()
+    {
+        try
+        {
+            isCreating = true;
+            await _coursesService.CreateCourseAsync(newCourse);
+            // Optionally, you can navigate to the "Courses" page after creating the course
+            NavigationManager.NavigateTo("/courses");
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions (e.g., display an error message)
+        }
+        finally
+        {
+            isCreating = false;
+        }
+    }
+}
