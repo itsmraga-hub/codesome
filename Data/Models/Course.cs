@@ -24,6 +24,8 @@ namespace codesome.Data.Courses
         public string CourseAuthorId { get; set; }
         public User Author { get; set; } = null!;
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<Category> CourseCategories { get; set; }
+        public ICollection<CourseTag> CourseTags { get; set; }
         public Course()
         {
         }
