@@ -2,6 +2,7 @@
 using codesome.Data.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace codesome.Pages.Auth
@@ -62,12 +63,15 @@ namespace codesome.Pages.Auth
             {
                 user.PasswordHash = model.Password;
                 var res = await _userService.CreateUserAsync(user);
+                // await LocalStorage.SetItemAsync("uid", res.Id);
                 if (res.IsAuthenticated)
-                {
+                {                    
                     var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
                     await customAuthenticationStateProvider!.UpdateAuthenticationState(res);
-                    await LocalStorage.SetItemAsync("uid", res.Id);
+                    
                     NavigationManager.NavigateTo("/", true);
+                    // await LocalStorage.SetItemAsync("uid", res.Id);
+                    await LocalStorage.SetItemAsync("__id", res.Id);
                 }
             }
             else

@@ -66,9 +66,11 @@
         Console.WriteLine(JsonConvert.SerializeObject(res));
         var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
         var user = await customAuthenticationStateProvider!.UpdateAuthenticationState(res);
-        await LocalStorage.SetItemAsync("uid", user.Id);
+        // await LocalStorage.SetItemAsync("uid", user.Id);
         if (user.IsAuthenticated)
             NavigationManager.NavigateTo("/");
+
+        await LocalStorage.SetItemAsync("__id", user.Id);
         
     }
 

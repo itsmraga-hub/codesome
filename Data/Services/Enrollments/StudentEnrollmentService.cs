@@ -11,16 +11,37 @@ namespace codesome.Data.Services.Enrollments
             _context = context;
             _logger = logger;
         }
-        public Task EnrollStudentAsync(string studentId, int courseId)
+        public Task<StudentEnrollment> EnrollStudentAsync(StudentEnrollment enrollment)
         {
-            _context.Enrollments.Add(new StudentEnrollment
+            /*var enrollment = new StudentEnrollment
             {
                 StudentId = studentId,
-                CourseId = courseId,          
-            });
+                CourseId = courseId,
+            };*/
+            _context.Enrollments.Add(enrollment);
 
             _context.SaveChanges();
-            return Task.CompletedTask;
+            return Task.FromResult(enrollment);
+        }
+
+        Task<IEnumerable<StudentEnrollment>> IStudentEnrollmentService.GetCourseEnrollmentsAsync(string studentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<StudentEnrollment> IStudentEnrollmentService.GetStudentEnrollmentAsync(int courseId, string studentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<IEnumerable<StudentEnrollment>> IStudentEnrollmentService.GetStudentEnrollmentsAsync(string courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<StudentEnrollment> IStudentEnrollmentService.UnenrollStudentAsync(int courseId, string studentId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

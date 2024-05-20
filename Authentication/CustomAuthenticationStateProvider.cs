@@ -35,7 +35,6 @@ namespace codesome.Authentication
                                                     new Claim(ClaimTypes.Email, userSession.Email),
                                                     new Claim(ClaimTypes.MobilePhone, userSession.PhoneNumber),
                                                 }, "apiauth"));
-                await _localStorage.SetAsync("uid", userSession.Id);
                 return await Task.FromResult(new AuthenticationState(claimsPrincipal));
             }
             catch (Exception)
@@ -51,14 +50,13 @@ namespace codesome.Authentication
             if (userSession == null)
             {
                 await _sessionStorage.DeleteAsync("UserSession");
-                await _localStorage.SetAsync("uid", "");
+                await _localStorage.DeleteAsync("__id");
                 claimsPrincipal = _user;
                 return new UserSession();
             }
             else
             {
                 await _sessionStorage.SetAsync("UserSession", userSession);
-                await _localStorage.SetAsync("uid", JsonConvert.SerializeObject(userSession.Id));
                 claimsPrincipal = new ClaimsPrincipal(
                                         new ClaimsIdentity(
                                             new[]

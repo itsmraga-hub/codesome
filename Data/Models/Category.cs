@@ -9,7 +9,7 @@ namespace codesome.Data.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CategoryID { get; set; }
+        public int Id { get; set; }
         [Required]
         [MaxLength(255)]
         public string Name { get; set; } = "";

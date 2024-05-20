@@ -2,11 +2,17 @@
 @attribute [Authorize]
 <PageTitle>Courses</PageTitle>
 
+@using Newtonsoft.Json
 @using codesome.Data
 @using codesome.Data.Courses
+@using codesome.Data.Models
 @using codesome.Data.Services;
 @using codesome.Data.Services.Courses
+@using codesome.Data.Services.Enrollments
 @inject ICoursesService _coursesService
+@inject IStudentEnrollmentService _studentEnrollmentService
+
+@inject ILocalStorageService _LocalStorage
 
 
 <h1>Courses</h1>
@@ -38,7 +44,7 @@ else
             <MudTd DataLabel="Position">@context.Description</MudTd>
             <MudTd DataLabel="Molar mass">@context.Author</MudTd>
             <MudTd DataLabel="Molar mass">
-                <MudButton Color="Color.Primary" Variant="Variant.Filled">Enroll</MudButton>
+                <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="() => Enroll(context.Id)">Enroll</MudButton>
             </MudTd>
         </RowTemplate>
         <PagerContent>
@@ -63,12 +69,44 @@ else
     private string rowsPerPageString = "Rows per page:";
     private string infoFormat = "{first_item}-{last_item} of {all_items}";
     private string allItemsText = "All";
+    private string userID = null!;
     protected override async Task OnInitializedAsync()
     {
+        var uID = await _LocalStorage.GetItemAsync<string>("__id");
+        userID = uID!;
         var res = await _coursesService.GetCoursesAsync();
         if (res != null)
         {
             courses = res;
         }
+    }
+
+    void Enroll(int id)
+    {
+        Console.WriteLine("Enrolled");
+        Console.WriteLine("Enrolled");
+        
+        Console.WriteLine(JsonConvert.SerializeObject(userID));
+        if (userID != null)
+        {
+            var res = _studentEnrollmentService.EnrollStudentAsync(new StudentEnrollment()
+            {
+                CourseId = id,
+                StudentId = userID
+            });
+
+            if (res != null)
+            {
+                Console.WriteLine("Enrolled");
+            }
+            else
+            {
+                Console.WriteLine("Not Enrolled");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Not Enrolled");
+        };
     }
 }
