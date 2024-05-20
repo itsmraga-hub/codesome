@@ -29,11 +29,11 @@ namespace codesome.Data.Services.Users
             user.SecurityStamp = Guid.NewGuid().ToString();
             user.Id = Guid.NewGuid().ToString();
             user.PasswordHash = hashedPassword;
-            _logger.LogInformation("Creating user {0}", user);
             _context.User.Add(user);
             _context.SaveChanges();
             var userSession = new UserSession
             {
+                Id = user.Id,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Username = user.UserName
@@ -56,6 +56,7 @@ namespace codesome.Data.Services.Users
             }
             var userSession = new UserSession
             {
+                Id = user.Id,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Username = user.UserName

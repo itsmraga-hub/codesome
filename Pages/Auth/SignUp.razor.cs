@@ -9,7 +9,6 @@ namespace codesome.Pages.Auth
     public partial class SignUp
     {
         RegisterAccountForm model = new RegisterAccountForm();
-        bool success;
 
         public class RegisterAccountForm
         {

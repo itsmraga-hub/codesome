@@ -2,6 +2,7 @@
 @layout MainLayout
 
 @using System.Net.Http.Headers;
+@using System.Security.Claims
 @inject HttpClient Http
 @inject ILocalStorageService _localStorage
 @inject ISnackbar Snackbar
@@ -16,7 +17,6 @@
             <MudSpacer />
             <div class="d-flex flex-row align-center gap-6 justify-center">
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LogOut" Class="ml-auto">Login</MudButton>
-
             </div>
         </MudAppBar> *@
         <MudGrid>
@@ -42,9 +42,5 @@
 
 @code {
     [CascadingParameter]
-    private Task<AuthenticationState> authenticationState { get; set; }
-    private async Task LogOut()
-    {
-        // var authState = await authenticationState;
-    }
+    private Task<AuthenticationState> authenticationState { get; set; } = Task.FromResult(new AuthenticationState(new ClaimsPrincipal()));
 }

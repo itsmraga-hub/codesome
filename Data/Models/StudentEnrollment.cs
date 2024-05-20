@@ -9,10 +9,10 @@ namespace codesome.Data.Models
     {
         public int CourseId { get; set; }
         public Course Course { get; set; } = null!;
-        public int StudentId { get; set; }
+        public string StudentId { get; set; } = "";
         public User Student { get; set; } = null!;
 
         public DateTime DateEnrolled = DateTime.Now.Date;
-        public DateTime DateCompleted { get; set; }
+        public DateTime? DateCompleted { get; set; }
     }
 }

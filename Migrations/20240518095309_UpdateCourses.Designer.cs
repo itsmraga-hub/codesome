@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using codesome.Data;
 
@@ -10,9 +11,10 @@ using codesome.Data;
 namespace codesome.Migrations
 {
     [DbContext(typeof(codesomeContext))]
-    partial class codesomeContextModelSnapshot : ModelSnapshot
+    [Migration("20240518095309_UpdateCourses")]
+    partial class UpdateCourses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,7 +70,7 @@ namespace codesome.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Courses", (string)null);
+                    b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("codesome.Data.Courses.Review", b =>
@@ -100,7 +102,7 @@ namespace codesome.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("codesome.Data.Models.Lesson", b =>
@@ -134,7 +136,7 @@ namespace codesome.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Lessons", (string)null);
+                    b.ToTable("Lessons");
                 });
 
             modelBuilder.Entity("codesome.Data.Models.User", b =>
@@ -214,7 +216,7 @@ namespace codesome.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("codesome.Data.Courses.Course", b =>

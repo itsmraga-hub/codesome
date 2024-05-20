@@ -1,10 +1,15 @@
 ﻿@page "/courses/new"
 <PageTitle>Courses</PageTitle>
 
+@using Newtonsoft.Json
+@using codesome.Authentication
 @using codesome.Data
 @using codesome.Data.Courses
 @using codesome.Data.Services;
 @using codesome.Data.Services.Courses
+@using codesome.Data.Services.Users
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject IUserService _userService
 @inject ICoursesService _coursesService
 @inject NavigationManager NavigationManager
 
@@ -27,8 +32,8 @@
         <label for="price">Price:</label>
         <input type="number" class="form-control" id="price" @bind="newCourse.Price" />
     </div>
-    <button type="submit" class="btn btn-primary" @onclick="CreateCourse">Create</button>
 </form>
+<button type="button" class="btn btn-primary" @onclick="CreateCourse">Create</button>
 
 @if (isCreating)
 {
@@ -44,12 +49,24 @@
         try
         {
             isCreating = true;
+            // Get the current user's ID
+            var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+            
+            var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
+            var userSession = await customAuthenticationStateProvider.GetAuthenticatedUser();
+            Console.WriteLine(JsonConvert.SerializeObject(authState));
+
+            // var user = authState.User;
+            Console.WriteLine(JsonConvert.SerializeObject(userSession));
+            newCourse.CourseAuthorId = userSession.Id;
+
             await _coursesService.CreateCourseAsync(newCourse);
             // Optionally, you can navigate to the "Courses" page after creating the course
             NavigationManager.NavigateTo("/courses");
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             // Handle any exceptions (e.g., display an error message)
         }
         finally

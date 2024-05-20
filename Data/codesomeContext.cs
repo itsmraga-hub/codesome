@@ -17,7 +17,8 @@ namespace codesome.Data
 
         public DbSet<Course> Course { get; set; } = default!;
 
-        public DbSet<Lesson> Lesson { get; set; } = default!;
-        public DbSet<User> User { get; set; } = default!;
+        public DbSet<Lesson> Lesson { get; set; } = null!;
+        public DbSet<User> User { get; set; } = null!;
+        public DbSet<StudentEnrollment> Enrollments { get; set; } = null!;
     }
 }

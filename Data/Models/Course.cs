@@ -19,9 +19,9 @@ namespace codesome.Data.Courses
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? DeletedAt { get; set; }
-        public int StudentsEnrolled { get; set; }
+        public int StudentsEnrolled { get; set; } = 0;
         public float Rating { get; set; }
-        public int CourseAuthorId { get; set; }
+        public string CourseAuthorId { get; set; }
         public User Author { get; set; } = null!;
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public Course()

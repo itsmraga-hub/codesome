@@ -41,11 +41,9 @@
 
 @code {
     RegisterAccountForm model = new RegisterAccountForm();
-    bool success;
 
     public class RegisterAccountForm
     {
-
         [Required]
         [EmailAddress]
         public string Email { get; set; } = "";
@@ -53,7 +51,6 @@
         [Required]
         [StringLength(30, ErrorMessage = "Password must be at least 8 characters long.", MinimumLength = 8)]
         public string Password { get; set; } = "";
-
     }
 
     private async void OnValidSubmit(EditContext context)

@@ -20,7 +20,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
-// builder.Services.AddMySqlDataSource(builder.Configuration.GetConnectionString("codesomeContext")!);
 builder.Services.AddDbContext<codesomeContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("codesomeContext");
@@ -44,12 +43,10 @@ builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddScoped<MudThemeProvider>();
 builder.Services.AddTransient<ISnackbar, SnackbarService>();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddTransient<ICoursesService, CoursesService>();
 builder.Services.AddTransient<ILessonsService, LessonsService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-        .AddEntityFrameworkStores<codesomeContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<codesomeContext>();
 
 var app = builder.Build();
 
