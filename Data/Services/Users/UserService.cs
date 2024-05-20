@@ -36,7 +36,8 @@ namespace codesome.Data.Services.Users
                 Id = user.Id,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Username = user.UserName
+                Username = user.UserName,
+                IsAuthenticated = true
             };
             return Task.FromResult(userSession);
         }
@@ -46,20 +47,22 @@ namespace codesome.Data.Services.Users
             var user = _context.User.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
-                throw new InvalidOperationException("User not found.");
+                return Task.FromResult(new UserSession());
+                // throw new InvalidOperationException("User not found.");
             }
 
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
             if (result == PasswordVerificationResult.Failed)
             {
-                throw new InvalidOperationException("Invalid password.");
+                return Task.FromResult(new UserSession());
             }
             var userSession = new UserSession
             {
                 Id = user.Id,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Username = user.UserName
+                Username = user.UserName,
+                IsAuthenticated = true
             };
 
             return Task.FromResult(userSession);

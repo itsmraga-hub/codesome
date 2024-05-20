@@ -18,6 +18,9 @@ namespace codesome.Data.Services.Enrollments
                 StudentId = studentId,
                 CourseId = courseId,          
             });
+
+            _context.SaveChanges();
+            return Task.CompletedTask;
         }
     }
 }

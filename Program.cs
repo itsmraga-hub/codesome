@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using codesome.Authentication;
 using codesome.Data.Services.Users;
 using Microsoft.AspNetCore.Identity;
+using codesome.Data.Services.Enrollments;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,7 @@ builder.Services.AddScoped<MudThemeProvider>();
 builder.Services.AddTransient<ISnackbar, SnackbarService>();
 builder.Services.AddTransient<ICoursesService, CoursesService>();
 builder.Services.AddTransient<ILessonsService, LessonsService>();
+builder.Services.AddTransient<IStudentEnrollmentService, StudentEnrollmentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<codesomeContext>();
 

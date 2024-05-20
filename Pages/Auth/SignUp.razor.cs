@@ -62,9 +62,13 @@ namespace codesome.Pages.Auth
             {
                 user.PasswordHash = model.Password;
                 var res = await _userService.CreateUserAsync(user);
-                var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
-                await customAuthenticationStateProvider!.UpdateAuthenticationState(res);
-                NavigationManager.NavigateTo("/", true);
+                if (res.IsAuthenticated)
+                {
+                    var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
+                    await customAuthenticationStateProvider!.UpdateAuthenticationState(res);
+                    await LocalStorage.SetItemAsync("uid", res.Id);
+                    NavigationManager.NavigateTo("/", true);
+                }
             }
             else
             {

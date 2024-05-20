@@ -2,6 +2,7 @@
 @inherits LayoutComponentBase
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorage
 
 <MudThemeProvider />
 <MudDialogProvider />
@@ -49,6 +50,7 @@
     {
         var customAuthState = (CustomAuthenticationStateProvider)AuthenticationStateProvider;
         await customAuthState.UpdateAuthenticationState(null!);
+        await LocalStorage.ClearAsync();
         NavigationManager.NavigateTo("/", true);
     }
 }

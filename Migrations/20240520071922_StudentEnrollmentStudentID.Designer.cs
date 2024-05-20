@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using codesome.Data;
 
@@ -10,9 +11,10 @@ using codesome.Data;
 namespace codesome.Migrations
 {
     [DbContext(typeof(codesomeContext))]
-    partial class codesomeContextModelSnapshot : ModelSnapshot
+    [Migration("20240520071922_StudentEnrollmentStudentID")]
+    partial class StudentEnrollmentStudentID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

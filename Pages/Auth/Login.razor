@@ -9,7 +9,8 @@
 @inject NavigationManager NavigationManager
 @inject IUserService _userService
 @inject AuthenticationStateProvider authenticationStateProvider
-
+@inject ISnackbar Snackbar
+@inject ILocalStorageService LocalStorage
 
 
 <PageTitle>Login</PageTitle>
@@ -56,15 +57,26 @@
     private async void OnValidSubmit(EditContext context)
     {
         var res = await _userService.AuthenticateUser(model.Email, model.Password);
-        if (res == null)
+        if (res.IsAuthenticated == false)
         {
             await JSRuntime.InvokeVoidAsync("alert", "Invalid email or password. Please try again.");
+            // FailedLogin("Invalid email or password. Please try again.", "top-center");
             return;
         };
         Console.WriteLine(JsonConvert.SerializeObject(res));
         var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
-        await customAuthenticationStateProvider!.UpdateAuthenticationState(res);
-        NavigationManager.NavigateTo("/");
+        var user = await customAuthenticationStateProvider!.UpdateAuthenticationState(res);
+        await LocalStorage.SetItemAsync("uid", user.Id);
+        if (user.IsAuthenticated)
+            NavigationManager.NavigateTo("/");
+        
+    }
+
+    void FailedLogin(string message, string position)
+    {
+        Snackbar.Clear();
+        Snackbar.Configuration.PositionClass = position;
+        Snackbar.Add(message, Severity.Error, config => { config.VisibleStateDuration = 3000; });
     }
 
 }

@@ -25,12 +25,8 @@ namespace codesome.Authentication
             {
                 var userSessionStorageResult = await _sessionStorage.GetAsync<UserSession>("UserSession");
                 var userSession = userSessionStorageResult.Success ? userSessionStorageResult.Value : null;
-                if (userSession == null)
-                {
-                    await _localStorage.SetAsync("uid", "");
+                if (userSession == null)               
                     return await Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
-
-                }
                 var claimsPrincipal = new ClaimsPrincipal(
                                             new ClaimsIdentity(
                                                 new[] {
@@ -44,12 +40,12 @@ namespace codesome.Authentication
             }
             catch (Exception)
             {
-                await _localStorage.SetAsync("uid", "");
+                // await _localStorage.SetAsync("uid", "");
                 return await Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
             }
         }
 
-        public async Task UpdateAuthenticationState(UserSession userSession)
+        public async Task<UserSession> UpdateAuthenticationState(UserSession userSession)
         {
             ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal();
             if (userSession == null)
@@ -57,11 +53,12 @@ namespace codesome.Authentication
                 await _sessionStorage.DeleteAsync("UserSession");
                 await _localStorage.SetAsync("uid", "");
                 claimsPrincipal = _user;
+                return new UserSession();
             }
             else
             {
                 await _sessionStorage.SetAsync("UserSession", userSession);
-                await _localStorage.SetAsync("uid", userSession.Id);
+                await _localStorage.SetAsync("uid", JsonConvert.SerializeObject(userSession.Id));
                 claimsPrincipal = new ClaimsPrincipal(
                                         new ClaimsIdentity(
                                             new[]
@@ -72,6 +69,8 @@ namespace codesome.Authentication
                         }, "apiauth"));
             }
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
+            userSession.IsAuthenticated = true;
+            return userSession;
         }
 
         public async Task<UserSession> GetAuthenticatedUser()
