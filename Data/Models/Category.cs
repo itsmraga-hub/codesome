@@ -5,7 +5,7 @@ using codesome.Data.Courses;
 namespace codesome.Data.Models
 {
     [Table("Categories")]
-    public class Category
+    public class Category : Base
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,7 +14,6 @@ namespace codesome.Data.Models
         [MaxLength(255)]
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
-        public bool isDeleted { get; set; } = false;
         public bool isMainCategory { get; set; } = false;
         public ICollection<Course> Courses { get; set; } = new List<Course>();
         public ICollection<Category> AllCategories { get;} = new List<Category>();

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
 
 namespace codesome.Pages.Auth
 {
@@ -30,7 +31,12 @@ namespace codesome.Pages.Auth
             public string PhoneNumber { get; set; } = "";
 
             [Required]
+            public DateTime DateOfBirth { get; set; }
             public int Age { get; set; }
+
+            [Required]            
+            [StringLength(20, ErrorMessage = "Role is Required")]
+            public string Role { get; set; } = "Default";
 
             [Required]
             [EmailAddress]
@@ -57,8 +63,10 @@ namespace codesome.Pages.Auth
             user.PhoneNumber = model.PhoneNumber;
             user.PhoneNumberConfirmed = true;
             user.UserName = model.Username;
-            user.EmailConfirmed = true;
-            user.age = model.Age;
+            user.EmailConfirmed = true;           
+            user.DateOfBirth = model.DateOfBirth;
+            user.age = DateTime.Now.Year - model.DateOfBirth.Year;
+            user.Role = model.Role;
             if (model.Password == model.Password2)
             {
                 user.PasswordHash = model.Password;

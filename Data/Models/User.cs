@@ -14,7 +14,7 @@ namespace codesome.Data.Models
         public string LastName { get; set; } = "";
         public string ProfilePictureUrl { get; set; } = "";
         public string Bio { get; set; } = "";
-        public DateTime DateJoined { get; set; }
+        public DateTime DateJoined { get; set; } = DateTime.Now.Date;
     }
 
     public enum UserRole

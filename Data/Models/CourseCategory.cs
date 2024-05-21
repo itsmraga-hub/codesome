@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace codesome.Data.Models
 {
     [Table("CourseCategories")]
-    public class CourseCategory
+    public class CourseCategory : Base
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,5 +14,8 @@ namespace codesome.Data.Models
         public Course Course { get; set; } = null!;
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
+        public ICollection<Course> Courses { get; set; } = new List<Course>();
+        public ICollection<Category> AllCategories { get; } = new List<Category>();
+        public ICollection<CourseTag> CourseTags { get; set; } = new List<CourseTag>();
     }
 }

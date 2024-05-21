@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace codesome.Data.Models
 {
     [Table("Lessons")]
-    public class Lesson
+    public class Lesson : Base
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

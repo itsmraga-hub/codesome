@@ -6,7 +6,7 @@ namespace codesome.Data.Courses
 {
 
     [Table("Courses")]
-    public class Course
+    public class Course : Base
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,19 +16,13 @@ namespace codesome.Data.Courses
         public float Price { get; set; }
         public DateTimeOffset StartDate { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset EndDate { get; set; } = DateTimeOffset.Now;
-        public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.Now;
-        public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.Now;
-        public DateTimeOffset? DeletedAt { get; set; }
         public int StudentsEnrolled { get; set; } = 0;
         public float Rating { get; set; }
-        public string CourseAuthorId { get; set; }
+        public string CourseAuthorId { get; set; } = "";
         public User Author { get; set; } = null!;
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
-        public ICollection<Category> CourseCategories { get; set; }
-        public ICollection<CourseTag> CourseTags { get; set; }
-        public Course()
-        {
-        }
+        public ICollection<Category> CourseCategories { get; set; } = new List<Category>();
+        public ICollection<CourseTag> CourseTags { get; set; } = new List<CourseTag>();
 
     }
 }
