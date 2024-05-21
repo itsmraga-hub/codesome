@@ -34,6 +34,7 @@ namespace codesome.Authentication
                                                     new Claim(ClaimTypes.Name, userSession.Username),
                                                     new Claim(ClaimTypes.Email, userSession.Email),
                                                     new Claim(ClaimTypes.MobilePhone, userSession.PhoneNumber),
+                                                    new Claim(ClaimTypes.Role, userSession.Role),
                                                 }, "apiauth"));
                 return await Task.FromResult(new AuthenticationState(claimsPrincipal));
             }
@@ -61,8 +62,10 @@ namespace codesome.Authentication
                                         new ClaimsIdentity(
                                             new[]
                         {
+                    new Claim(ClaimTypes.NameIdentifier, userSession.Id),
                     new Claim(ClaimTypes.Name, userSession.Username),
                     new Claim(ClaimTypes.Email, userSession.Email),
+                    new Claim(ClaimTypes.Role, userSession.Role),
                     new Claim(ClaimTypes.MobilePhone, userSession.PhoneNumber),
                         }, "apiauth"));
             }
@@ -85,6 +88,7 @@ namespace codesome.Authentication
                                                     new Claim(ClaimTypes.NameIdentifier, userSession.Id),
                                                     new Claim(ClaimTypes.Name, userSession.Username),
                                                     new Claim(ClaimTypes.Email, userSession.Email),
+                                                    new Claim(ClaimTypes.Role, userSession.Role),
                                                     new Claim(ClaimTypes.MobilePhone, userSession.PhoneNumber),
                                                 }, "apiauth"));
                 return await Task.FromResult(userSession);

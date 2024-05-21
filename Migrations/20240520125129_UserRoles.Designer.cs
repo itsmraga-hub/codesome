@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using codesome.Data;
 
@@ -10,9 +11,10 @@ using codesome.Data;
 namespace codesome.Migrations
 {
     [DbContext(typeof(codesomeContext))]
-    partial class codesomeContextModelSnapshot : ModelSnapshot
+    [Migration("20240520125129_UserRoles")]
+    partial class UserRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -306,10 +308,6 @@ namespace codesome.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ProfilePictureUrl")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("longtext");
 

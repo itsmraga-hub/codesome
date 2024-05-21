@@ -37,6 +37,16 @@
             </MudMainContent>
         </NotAuthorized>
     </AuthorizeView>
+    <AuthorizeView Roles="Student">
+        <Authorized>
+                <MudText Typo="Typo.body2">© 2021 Admin</MudText>
+                <MudText Typo="Typo.body2">© 2021 Codesome</MudText>
+        </Authorized>
+        <NotAuthorized>
+                <MudText Typo="Typo.body2">© 2021 Student</MudText>
+                <MudText Typo="Typo.body2">© 2021 Codesome</MudText>
+        </NotAuthorized>
+    </AuthorizeView>
 </MudLayout>
 
 @code {

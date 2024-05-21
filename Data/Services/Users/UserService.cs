@@ -37,7 +37,8 @@ namespace codesome.Data.Services.Users
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Username = user.UserName,
-                IsAuthenticated = true
+                IsAuthenticated = true,
+                Role = user.Role
             };
             return Task.FromResult(userSession);
         }
@@ -62,7 +63,8 @@ namespace codesome.Data.Services.Users
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Username = user.UserName,
-                IsAuthenticated = true
+                IsAuthenticated = true,
+                Role = user.Role
             };
 
             return Task.FromResult(userSession);

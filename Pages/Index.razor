@@ -19,9 +19,9 @@
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LogOut" Class="ml-auto">Login</MudButton>
             </div>
         </MudAppBar> *@
-        <MudGrid>
+        <MudGrid Class="mt-10">
             <MudItem>
-                <MudText Typo="Typo.h4">Welcome to Codesome</MudText>
+                <MudText Typo="Typo.h4">Welcome @context.User.Identity!.Name to Codesome</MudText>
             </MudItem>
         </MudGrid>
     </Authorized>
@@ -39,8 +39,22 @@
     </NotAuthorized>
 </AuthorizeView>
 
+<AuthorizeView Roles="Administrator">
+    <Authorized>
+        <MudText Typo="Typo.body2">© 2021 Admin</MudText>
+        <MudText Typo="Typo.body2">© 2021 Admin</MudText>
+        <MudText Typo="Typo.body2">© 2021 Codesome</MudText>
+    </Authorized>
+    <NotAuthorized>
+        <MudText Typo="Typo.body2">© 2021 Student</MudText>
+        <MudText Typo="Typo.body2">© 2021 Student</MudText>
+        <MudText Typo="Typo.body2">© 2021 Codesome</MudText>
+    </NotAuthorized>
+</AuthorizeView>
+
 
 @code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; } = Task.FromResult(new AuthenticationState(new ClaimsPrincipal()));
+    
 }

@@ -64,6 +64,8 @@
             return;
         };
         Console.WriteLine(JsonConvert.SerializeObject(res));
+        Console.WriteLine(JsonConvert.SerializeObject(res));
+        Console.WriteLine(JsonConvert.SerializeObject(res));
         var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
         var user = await customAuthenticationStateProvider!.UpdateAuthenticationState(res);
         // await LocalStorage.SetItemAsync("uid", user.Id);
