@@ -21,17 +21,17 @@ namespace codesome.Data.Services.Lessons
 
         private bool LessonExists(int id)
         {
-            return (_context.Lesson?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Lessons?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
 
         Task<List<Lesson>?> ILessonsService.GetLessonsAsync()
         {
-            if (_context.Lesson == null)
+            if (_context.Lessons == null)
             {
                 return null!;
             }
-            var lessons = _context.Lesson.Include(l => l.Course).ToListAsync();
+            var lessons = _context.Lessons.Include(l => l.Course).ToListAsync();
 
             return lessons!;
         }
@@ -39,11 +39,11 @@ namespace codesome.Data.Services.Lessons
 
         Task<Lesson?> ILessonsService.GetLessonAsync(int id)
         {
-            if (_context.Lesson == null)
+            if (_context.Lessons == null)
             {
                 return null!;
             }
-            var lesson = _context.Lesson.Include(l => l.Course);
+            var lesson = _context.Lessons.Include(l => l.Course);
 
             return (Task<Lesson?>)lesson;
         }
@@ -60,7 +60,7 @@ namespace codesome.Data.Services.Lessons
                 throw new ArgumentNullException(nameof(lesson));
             }
 
-            _context.Lesson.Add(lesson);
+            _context.Lessons.Add(lesson);
             _context.SaveChanges();
 
             return Task.CompletedTask;

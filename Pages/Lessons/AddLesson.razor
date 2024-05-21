@@ -1,4 +1,6 @@
 ﻿@page "/lessons/new"
+@attribute [Authorize(Roles = "Administrator,Instructor")]
+
 <PageTitle>Create Lesson</PageTitle>
 
 @using codesome.Data

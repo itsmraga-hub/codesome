@@ -1,5 +1,5 @@
-﻿using codesome.Data.Courses;
-using codesome.Data.Models;
+﻿using codesome.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace codesome.Data.Services.Courses
 {
@@ -12,14 +12,25 @@ namespace codesome.Data.Services.Courses
             _context = context;
             _logger = logger;
         }
-        public Task CreateCourseCategoryAsync(Course course)
+        public Task CreateCourseCategoryAsync(CourseCategory courseCategory)
         {
-            throw new NotImplementedException();
+            if (courseCategory == null)
+            {
+                throw new ArgumentNullException(nameof(courseCategory));
+            }
+            _context.CourseCategories.Add(courseCategory);
+            _context.SaveChanges();
+            
+            return Task.CompletedTask;
         }
 
-        public Task<List<CourseCategory>?> GetCourseCategoriesAsync()
+        public async Task<List<CourseCategory>?> GetCourseCategoriesAsync()
         {
-            throw new NotImplementedException();
+            if (_context.CourseCategories == null)
+            {
+                return null!;
+            }
+            return await _context.CourseCategories.ToListAsync();
         }
 
         public Task<CourseCategory?> GetCourseCategoryAsync(int id)

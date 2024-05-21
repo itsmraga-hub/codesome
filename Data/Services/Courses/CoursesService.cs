@@ -1,8 +1,6 @@
 ﻿using codesome.Data.Courses;
 using codesome.Data.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace codesome.Data.Services.Courses
 {
@@ -22,7 +20,7 @@ namespace codesome.Data.Services.Courses
                 throw new ArgumentNullException(nameof(course));
             }
 
-            _context.Course.Add(course);
+            _context.Courses.Add(course);
             _context.SaveChanges();
 
             return Task.CompletedTask;
@@ -30,20 +28,20 @@ namespace codesome.Data.Services.Courses
 
         public async Task<List<Course>?> GetCoursesAsync()
         {
-            if (_context.Course == null)
+            if (_context.Courses == null)
             {
                 return null;
             }
-            return await _context.Course.ToListAsync();
+            return await _context.Courses.ToListAsync();
         }
 
         public async Task<Course?> GetCourseAsync(int id)
         {
-            if (_context.Course == null)
+            if (_context.Courses == null)
             {
                 return null;
             }
-            return await _context.Course.FindAsync(id);
+            return await _context.Courses.FindAsync(id);
         }
 
         public async Task<bool> PutCourseAsync(int id, Course course)
@@ -76,12 +74,12 @@ namespace codesome.Data.Services.Courses
 
         private bool CourseExists(int id)
         {
-            return _context.Course.Any(e => e.Id == id);
+            return _context.Courses.Any(e => e.Id == id);
         }
 
         public Task<List<Lesson>> GetCourseLessonsAsync(int courseId)
         {
-            if (_context.Course == null)
+            if (_context.Courses == null)
             {
                 return null!;
             }

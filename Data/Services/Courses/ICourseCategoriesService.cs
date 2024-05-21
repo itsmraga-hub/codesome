@@ -8,7 +8,7 @@ namespace codesome.Data.Services.Courses
         Task<List<CourseCategory>?> GetCourseCategoriesAsync();
         Task<CourseCategory?> GetCourseCategoryAsync(int id);
         Task<bool> PutCourseCategoryAsync(int id, CourseCategory courseCategory);
-        Task CreateCourseCategoryAsync(Course course);
+        Task CreateCourseCategoryAsync(CourseCategory courseCategory);
         Task<List<Lesson>> GetCourseCategoryCoursesAsync(int courseCategoryId);
     }
 }

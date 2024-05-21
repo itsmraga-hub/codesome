@@ -1,4 +1,5 @@
 ﻿@page "/courses/new"
+@attribute [Authorize(Roles = "Administrator,Instructor")]
 <PageTitle>Courses</PageTitle>
 
 @using Newtonsoft.Json
@@ -10,30 +11,72 @@
 @using codesome.Data.Services.Users
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject IUserService _userService
+@inject ILocalStorageService _localStorage
 @inject ICoursesService _coursesService
 @inject NavigationManager NavigationManager
 
-<h1>Create Course</h1>
-
-<form>
-    <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" class="form-control" id="title" @bind="newCourse.Title" />
-    </div>
-    <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea class="form-control" id="description" @bind="newCourse.Description"></textarea>
-    </div>
-    @* <div class="form-group">
-        <label for="category">Category:</label>
-        <input type="text" class="form-control" id="category" @bind="newCourse.Category" />
-    </div> *@
-    <div class="form-group">
-        <label for="price">Price:</label>
-        <input type="number" class="form-control" id="price" @bind="newCourse.Price" />
-    </div>
-</form>
-<button type="button" class="btn btn-primary" @onclick="CreateCourse">Create</button>
+<MudGrid>
+    <MudItem>
+        <MudText Typo="Typo.h4"><MudNavLink Href="/" Match="NavLinkMatch.Prefix">Codesome</MudNavLink></MudText>
+        <MudText Typo="Typo.h4">Create Course</MudText>
+    </MudItem>
+</MudGrid>
+<EditForm Model="@newCourse" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="12">
+            <MudCard>
+                <MudCardContent>
+                    <MudGrid>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="Course Title" HelperText="Max. 8 characters"
+                                          @bind-Value="newCourse.Title" For="@(() => newCourse.Title)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudNumericField Label="Course Price" HelperText="Course Price"
+                                          @bind-Value="newCourse.Price" For="@(() => newCourse.Price)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="12">
+                            <MudTextField Label="Course Description" HelperText="Course Description"
+                                          @bind-Value="newCourse.Description" For="@(() => newCourse.Description)" />
+                        </MudItem>
+                        @* <MudItem xs="12" sm="4">
+                            <MudTextField Label="Phone Number" HelperText="Max. 8 characters"
+                                          @bind-Value="newCourse.PhoneNumber" For="@(() => newCourse.PhoneNumber)" />
+                        </MudItem> *@
+                        @* <MudItem xs="12" sm="4">
+                            <MudSelect Margin="Margin.Dense" T="string" Label="Role" Variant="Variant.Outlined" @bind-Value="model.Role" For="@(() => model.Role)">
+                                <MudSelectItem Value="@("Student")" />
+                                <MudSelectItem Value="@("Instructor")" />
+                                <MudSelectItem Value="@("Administrator")" />
+                            </MudSelect>
+                        </MudItem> *@
+                        @* <MudItem xs="12" sm="4">
+                            <MudDatePicker Label="Date of Birth"
+                                DateFormat="dd-MM-yyyy"
+                                           IsDateDisabledFunc="@((DateTime dt)=>((int)dt.Year > DateTime.Now.Year - 4))" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="Email" Class="mt-3"
+                                          @bind-Value="model.Email" For="@(() => model.Email)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                          @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="Confirmation Password" HelperText="Confirm password" Class="mt-3"
+                                          @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+                        </MudItem> *@
+                    </MudGrid>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Create Course</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
 
 @if (isCreating)
 {
@@ -44,6 +87,10 @@
     private Course newCourse = new Course();
     private bool isCreating = false;
 
+    private async void OnValidSubmit(EditContext context)
+    {
+        await CreateCourse();
+    }
     private async Task CreateCourse()
     {
         try
@@ -51,14 +98,14 @@
             isCreating = true;
             // Get the current user's ID
             var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
-            
+            var uid = await _localStorage.GetItemAsync<string>("uid");
             var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
             var userSession = await customAuthenticationStateProvider.GetAuthenticatedUser();
             Console.WriteLine(JsonConvert.SerializeObject(authState));
 
             // var user = authState.User;
             Console.WriteLine(JsonConvert.SerializeObject(userSession));
-            newCourse.CourseAuthorId = userSession.Id;
+            newCourse.CourseAuthorId = uid!;
 
             await _coursesService.CreateCourseAsync(newCourse);
             // Optionally, you can navigate to the "Courses" page after creating the course

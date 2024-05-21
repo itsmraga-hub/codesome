@@ -29,7 +29,7 @@ namespace codesome.Data.Services.Users
             user.SecurityStamp = Guid.NewGuid().ToString();
             user.Id = Guid.NewGuid().ToString();
             user.PasswordHash = hashedPassword;
-            _context.User.Add(user);
+            _context.Users.Add(user);
             _context.SaveChanges();
             var userSession = new UserSession
             {
@@ -45,7 +45,7 @@ namespace codesome.Data.Services.Users
 
         public Task<UserSession> AuthenticateUser(string email, string password)
         {
-            var user = _context.User.FirstOrDefault(u => u.Email == email);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null)
             {
                 return Task.FromResult(new UserSession());

@@ -1,6 +1,6 @@
 ﻿@page "/lessons"
+@attribute [Authorize(Roles = "Administrator,Instructor,Student")]
 
-@attribute [Authorize]
 <PageTitle>Courses</PageTitle>
 
 @using codesome.Data

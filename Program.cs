@@ -1,9 +1,5 @@
 ﻿using codesome.Data;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MySqlConnector;
 using MudBlazor.Services;
 using Blazored.LocalStorage;
 using MudBlazor;
@@ -48,6 +44,7 @@ builder.Services.AddTransient<ICoursesService, CoursesService>();
 builder.Services.AddTransient<ILessonsService, LessonsService>();
 builder.Services.AddTransient<IStudentEnrollmentService, StudentEnrollmentService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICourseCategoriesService, CourseCategoriesService>();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddRoles<IdentityRole>().AddEntityFrameworkStores<codesomeContext>();
 
 var app = builder.Build();

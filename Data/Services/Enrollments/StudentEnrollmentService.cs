@@ -18,7 +18,7 @@ namespace codesome.Data.Services.Enrollments
                 StudentId = studentId,
                 CourseId = courseId,
             };*/
-            var course = _context.Course.Find(enrollment.CourseId);
+            var course = _context.Courses.Find(enrollment.CourseId);
             course!.StudentsEnrolled += 1;
             _context.Enrollments.Add(enrollment);
 

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
 
 namespace codesome.Pages.Auth
 {
@@ -53,7 +52,7 @@ namespace codesome.Pages.Auth
         }
 
         private async void OnValidSubmit(EditContext context)
-        {
+        {          
             User user = new User
             {
                 FirstName = model.FirstName,
