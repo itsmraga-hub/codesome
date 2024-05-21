@@ -17,5 +17,6 @@ namespace codesome.Data
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<StudentEnrollment> Enrollments { get; set; } = null!;
         public DbSet<CourseCategory> CourseCategories { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
     }
 }

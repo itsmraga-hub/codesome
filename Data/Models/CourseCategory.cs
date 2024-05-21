@@ -14,8 +14,8 @@ namespace codesome.Data.Models
         public Course Course { get; set; } = null!;
         public int CategoryId { get; set; }
         public Category Category { get; set; } = null!;
-        public ICollection<Course> Courses { get; set; } = new List<Course>();
+  /*      public ICollection<Course> Courses { get; set; } = new List<Course>();
         public ICollection<Category> AllCategories { get; } = new List<Category>();
-        public ICollection<CourseTag> CourseTags { get; set; } = new List<CourseTag>();
+        public ICollection<CourseTag> CourseTags { get; set; } = new List<CourseTag>();*/
     }
 }
