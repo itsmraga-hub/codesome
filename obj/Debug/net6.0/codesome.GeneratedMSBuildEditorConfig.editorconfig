@@ -58,6 +58,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGVzc29uc1xMZXNzb25zLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/PersonalProjects/codesome/Pages/Tags/AddTag.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFnc1xBZGRUYWcucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/PersonalProjects/codesome/Pages/Tags/Tags.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGFnc1xUYWdzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/PersonalProjects/codesome/Shared/AuthLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEF1dGhMYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
