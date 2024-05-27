@@ -26,12 +26,28 @@ namespace codesome.Data.Services.Enrollments
             return Task.FromResult(enrollment);
         }
 
+        public Task UnEnrollStudentAsync(string userId, string courseId)
+        {
+            /*var enrollment = new StudentEnrollment
+            {
+                StudentId = studentId,
+                CourseId = courseId,
+            };*/
+            var enrollment = _context.Enrollments.Where(_ => _.CourseId == courseId && _.StudentId == userId).FirstOrDefault();
+            var course = _context.Courses.Find(courseId);
+            course!.StudentsEnrolled -= 1;
+            _context.Enrollments.Remove(enrollment!);
+
+            _context.SaveChanges();
+            return Task.FromResult("Unenrolled successfully");
+        }
+
         Task<IEnumerable<StudentEnrollment>> IStudentEnrollmentService.GetCourseEnrollmentsAsync(string studentId)
         {
             throw new NotImplementedException();
         }
 
-        Task<StudentEnrollment> IStudentEnrollmentService.GetStudentEnrollmentAsync(int courseId, string studentId)
+        Task<StudentEnrollment> IStudentEnrollmentService.GetStudentEnrollmentAsync(string courseId, string studentId)
         {
             throw new NotImplementedException();
         }
@@ -41,7 +57,7 @@ namespace codesome.Data.Services.Enrollments
             throw new NotImplementedException();
         }
 
-        Task<StudentEnrollment> IStudentEnrollmentService.UnenrollStudentAsync(int courseId, string studentId)
+        Task<StudentEnrollment> IStudentEnrollmentService.UnenrollStudentAsync(string courseId, string studentId)
         {
             throw new NotImplementedException();
         }

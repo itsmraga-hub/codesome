@@ -9,13 +9,13 @@ namespace codesome.Data.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
         public string VideoUrl { get; set; } = "";
         public int Duration { get; set; }
         public int Order { get; set; }
-        public int CourseId { get; set; }
+        public string CourseId { get; set; } = "";
         public Course Course { get; set; } = null!;
     }
 }

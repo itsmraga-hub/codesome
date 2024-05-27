@@ -79,7 +79,7 @@
             tag.CreatedBy = uid!;
 
             var res = await _tagsService.CreateTagAsync(tag);
-            if (res.Id > 0)
+            if (res.Id.Length > 0)
             {
                 OnClick();
                 NavigationManager.NavigateTo("/tags");

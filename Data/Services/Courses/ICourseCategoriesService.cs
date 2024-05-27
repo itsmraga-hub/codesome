@@ -6,9 +6,9 @@ namespace codesome.Data.Services.Courses
     public interface ICourseCategoriesService
     {
         Task<List<CourseCategory>?> GetCourseCategoriesAsync();
-        Task<CourseCategory?> GetCourseCategoryAsync(int id);
-        Task<bool> PutCourseCategoryAsync(int id, Category category);
-        Task<CourseCategory> CreateCourseCategoryAsync(int categoryId, int courseId);
-        Task<List<Lesson>> GetCourseCategoryCoursesAsync(int categoryId);
+        Task<CourseCategory?> GetCourseCategoryAsync(string id);
+        Task<bool> PutCourseCategoryAsync(string id, Category category);
+        Task<CourseCategory> CreateCourseCategoryAsync(string categoryId, string courseId);
+        Task<List<Lesson>> GetCourseCategoryCoursesAsync(string categoryId);
     }
 }

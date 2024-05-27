@@ -19,7 +19,7 @@ namespace codesome.Data.Services.Lessons
             _context = context;
         }
 
-        private bool LessonExists(int id)
+        private bool LessonExists(string id)
         {
             return (_context.Lessons?.Any(e => e.Id == id)).GetValueOrDefault();
         }

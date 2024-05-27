@@ -14,10 +14,10 @@ namespace codesome.Data.Courses
         public int? Rating { get; set; }
 
         // Navigation properties
-        public int CourseId { get; set; }
+        public string CourseId { get; set; } = "";
         public Course Course { get; set; } = null!;
 
-        public int StudentId { get; set; }
+        public string UserId { get; set; } = "";
         public User User { get; set; } = null!;
     }
 }

@@ -6,14 +6,18 @@
 @using codesome.Authentication
 @using codesome.Data
 @using codesome.Data.Courses
+@using codesome.Data.Models
 @using codesome.Data.Services;
 @using codesome.Data.Services.Courses
 @using codesome.Data.Services.Users
+@using codesome.Pages.Categories
 @inject AuthenticationStateProvider authenticationStateProvider
 @inject IUserService _userService
 @inject ILocalStorageService _localStorage
 @inject ICoursesService _coursesService
+@inject ICategoriesService _categoriesService
 @inject NavigationManager NavigationManager
+@inject IDialogService DialogService
 
 <MudGrid>
     <MudItem>
@@ -44,13 +48,20 @@
                             <MudTextField Label="Phone Number" HelperText="Max. 8 characters"
                                           @bind-Value="newCourse.PhoneNumber" For="@(() => newCourse.PhoneNumber)" />
                         </MudItem> *@
-                        @* <MudItem xs="12" sm="4">
-                            <MudSelect Margin="Margin.Dense" T="string" Label="Role" Variant="Variant.Outlined" @bind-Value="model.Role" For="@(() => model.Role)">
-                                <MudSelectItem Value="@("Student")" />
-                                <MudSelectItem Value="@("Instructor")" />
-                                <MudSelectItem Value="@("Administrator")" />
+                        <MudItem xs="12" sm="4">
+                            <MudSelect Margin="Margin.Dense" T="string" MultiSelection="true" Label="Course Category" Variant="Variant.Outlined"
+                                    @bind-Value="value"
+                                    @bind-SelectedValues="categoriesOptions"
+                                    For="@(() => value)">
+                                    @foreach (var category in categories)
+                                    {
+                                        <MudSelectItem T="string" Value="@category.Id">@category.Name</MudSelectItem>
+                                    }
+                                    <MudSelectItem T="string">
+                                        <MudButton OnClick="OpenAddCategoryModal">Add Category</MudButton>
+                                    </MudSelectItem>
                             </MudSelect>
-                        </MudItem> *@
+                        </MudItem>
                         @* <MudItem xs="12" sm="4">
                             <MudDatePicker Label="Date of Birth"
                                 DateFormat="dd-MM-yyyy"
@@ -86,10 +97,21 @@
 @code {
     private Course newCourse = new Course();
     private bool isCreating = false;
+    private List<Category> categories = new List<Category>();
+
+    private IEnumerable<string> categoriesOptions { get; set; } = new HashSet<string>() {};
+    private string value { get; set; } = "Nothing selected";
 
     private async void OnValidSubmit(EditContext context)
     {
         await CreateCourse();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await _categoriesService.GetCourseCategoriesAsync();
+        categories = res!;
+        // Console.WriteLine(JsonConvert.SerializeObject(categories));
     }
     private async Task CreateCourse()
     {
@@ -105,7 +127,7 @@
 
             // var user = authState.User;
             Console.WriteLine(JsonConvert.SerializeObject(userSession));
-            newCourse.CourseAuthorId = uid!;
+            newCourse.AuthorId = uid!;
 
             await _coursesService.CreateCourseAsync(newCourse);
             // Optionally, you can navigate to the "Courses" page after creating the course
@@ -120,5 +142,11 @@
         {
             isCreating = false;
         }
+    }
+
+    void OpenAddCategoryModal()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<AddCategory>("Add Category", options);
     }
 }

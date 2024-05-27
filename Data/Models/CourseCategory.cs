@@ -10,9 +10,9 @@ namespace codesome.Data.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int CourseId { get; set; }
+        public string CourseId { get; set; } = "";
         public Course Course { get; set; } = null!;
-        public int CategoryId { get; set; }
+        public string CategoryId { get; set; } = "";
         public Category Category { get; set; } = null!;
   /*      public ICollection<Course> Courses { get; set; } = new List<Course>();
         public ICollection<Category> AllCategories { get; } = new List<Category>();

@@ -12,7 +12,7 @@
 @using codesome.Data.Services.Enrollments
 @inject ICoursesService _coursesService
 @inject IStudentEnrollmentService _studentEnrollmentService
-
+@inject IDialogService DialogService
 @inject ILocalStorageService _LocalStorage
 
 
@@ -89,12 +89,8 @@ else
         }
     }
 
-    void Enroll(int id)
-    {
-        Console.WriteLine("Enrolled");
-        Console.WriteLine("Enrolled");
-        
-        Console.WriteLine(JsonConvert.SerializeObject(userID));
+    void Enroll(string id)
+    {        
         if (userID != null)
         {
             var res = _studentEnrollmentService.EnrollStudentAsync(new StudentEnrollment()

@@ -10,9 +10,9 @@ namespace codesome.Data.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int CourseId { get; set; }
+        public string CourseId { get; set; } = "";
         public Course Course { get; set; } = null!;
-        public int TagId { get; set; }
+        public string TagId { get; set; } = "";
         public Tag Tag { get; set; } = null!;
     }
 }

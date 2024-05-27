@@ -35,7 +35,7 @@ namespace codesome.Data.Services.Courses
             return await _context.Courses.ToListAsync();
         }
 
-        public async Task<Course?> GetCourseAsync(int id)
+        public async Task<Course?> GetCourseAsync(string id)
         {
             if (_context.Courses == null)
             {
@@ -44,7 +44,7 @@ namespace codesome.Data.Services.Courses
             return await _context.Courses.FindAsync(id);
         }
 
-        public async Task<bool> PutCourseAsync(int id, Course course)
+        public async Task<bool> PutCourseAsync(string id, Course course)
         {
             if (id != course.Id)
             {
@@ -72,12 +72,12 @@ namespace codesome.Data.Services.Courses
             return true;
         }
 
-        private bool CourseExists(int id)
+        private bool CourseExists(string id)
         {
             return _context.Courses.Any(e => e.Id == id);
         }
 
-        public Task<List<Lesson>> GetCourseLessonsAsync(int courseId)
+        public Task<List<Lesson>> GetCourseLessonsAsync(string courseId)
         {
             if (_context.Courses == null)
             {

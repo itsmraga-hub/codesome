@@ -10,7 +10,7 @@ namespace codesome.Data.Courses
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
         public float Price { get; set; }
@@ -18,7 +18,7 @@ namespace codesome.Data.Courses
         public DateTimeOffset EndDate { get; set; } = DateTimeOffset.Now;
         public int StudentsEnrolled { get; set; } = 0;
         public float Rating { get; set; }
-        public string CourseAuthorId { get; set; } = "";
+        public string AuthorId { get; set; } = "";
         public User Author { get; set; } = null!;
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Category> CourseCategories { get; set; } = new List<Category>();

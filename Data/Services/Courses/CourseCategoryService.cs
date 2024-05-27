@@ -14,11 +14,11 @@ namespace codesome.Data.Services.Courses
             _logger = logger;
         }
 
-        Task<CourseCategory> ICourseCategoriesService.CreateCourseCategoryAsync(int categoryId, int courseId)
+        Task<CourseCategory> ICourseCategoriesService.CreateCourseCategoryAsync(string categoryId, string courseId)
         {
-           if (categoryId == 0)
+           if (categoryId == null)
                 return null!;
-           if (courseId == 0)
+           if (courseId == null)
                 return null!;
            if (_context.CourseCategories == null)
                 return null!;
@@ -37,17 +37,17 @@ namespace codesome.Data.Services.Courses
             throw new NotImplementedException();
         }
 
-        Task<CourseCategory?> ICourseCategoriesService.GetCourseCategoryAsync(int id)
+        Task<CourseCategory?> ICourseCategoriesService.GetCourseCategoryAsync(string id)
         {
             throw new NotImplementedException();
         }
 
-        Task<List<Lesson>> ICourseCategoriesService.GetCourseCategoryCoursesAsync(int categoryId)
+        Task<List<Lesson>> ICourseCategoriesService.GetCourseCategoryCoursesAsync(string categoryId)
         {
             throw new NotImplementedException();
         }
 
-        Task<bool> ICourseCategoriesService.PutCourseCategoryAsync(int id, Category category)
+        Task<bool> ICourseCategoriesService.PutCourseCategoryAsync(string id, Category category)
         {
             throw new NotImplementedException();
         }
