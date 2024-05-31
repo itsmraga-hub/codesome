@@ -1,4 +1,4 @@
-﻿@page "/categories"
+﻿@page "/enrollments"
 @attribute [Authorize(Roles = "Administrator,Instructor,Student")]
 
 <PageTitle>Courses</PageTitle>
@@ -11,32 +11,32 @@
 @using codesome.Data.Services.Courses
 @using codesome.Data.Services.Enrollments
 @inject ICoursesService _coursesService
-@inject ICategoriesService _categoriesService
 @inject IStudentEnrollmentService _studentEnrollmentService
 @inject IDialogService DialogService
 @inject ILocalStorageService _LocalStorage
 
 
-@if (categories == null)
+@if (courses == null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
-    <MudButton @onclick="OpenDialog" Variant="Variant.Filled" Color="Color.Primary">
-        Add Category
-    </MudButton>
-    <MudTable Items="@categories">
+
+    <MudTable Items="@enrollments">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Course Categories</MudText>
+            <MudText Typo="Typo.h6">Enrollments</MudText>
         </ToolBarContent>
         <HeaderContent>
-            <MudTh>Name</MudTh>
-            <MudTh>Description</MudTh>
+            <MudTh>Title</MudTh>
+            <MudTh>DateEnrolled</MudTh>
+            <MudTh>Percentage done</MudTh>
+
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Nr">@context.Name</MudTd>
-            <MudTd DataLabel="Sign">@context.Description</MudTd>
+            <MudTd DataLabel="Nr">@context.Course.Title</MudTd>
+            <MudTd DataLabel="Sign">@context.DateEnrolled</MudTd>
+            <MudTd DataLabel="Sign">0%</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100, int.MaxValue }"
@@ -52,7 +52,8 @@ else
 }
 
 @code {
-    private List<Category> categories = new List<Category>();
+    private List<Course> courses = new List<Course>();
+    private List<StudentEnrollment> enrollments = new List<StudentEnrollment>();
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.Right;
     private bool hidePageNumber;
     private bool hidePagination;
@@ -61,21 +62,41 @@ else
     private string infoFormat = "{first_item}-{last_item} of {all_items}";
     private string allItemsText = "All";
     private string userID = null!;
-
     protected override async Task OnInitializedAsync()
     {
         var uID = await _LocalStorage.GetItemAsync<string>("__id");
         userID = uID!;
-        var res = await _categoriesService.GetCategoriesAsync();
+        var res = await _studentEnrollmentService.GetStudentEnrollmentsAsync(uID!);
         if (res != null)
         {
-            categories = res;
+            enrollments = res.ToList();
         }
     }
 
-    private void OpenDialog()
+    void Enroll(string id)
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true, };
-        DialogService.Show<AddCategory>("Add Category", options);
+        if (userID != null)
+        {
+            var res = _studentEnrollmentService.EnrollStudentAsync(new StudentEnrollment()
+                {
+                    CourseId = id,
+                    StudentId = userID
+                });
+
+            if (res != null)
+            {
+                Console.WriteLine("Enrolled");
+            }
+            else
+            {
+                Console.WriteLine("Not Enrolled");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Not Enrolled");
+        };
     }
+
+
 }

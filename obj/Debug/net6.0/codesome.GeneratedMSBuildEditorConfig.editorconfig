@@ -42,8 +42,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291cnNlc1xBZGRDb3Vyc2UucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/PersonalProjects/codesome/Pages/Courses/CoursePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291cnNlc1xDb3Vyc2VQYWdlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/PersonalProjects/codesome/Pages/Courses/Courses.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291cnNlc1xDb3Vyc2VzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/PersonalProjects/codesome/Pages/Enrollments/Enrollments.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRW5yb2xsbWVudHNcRW5yb2xsbWVudHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/PersonalProjects/codesome/Pages/Index.razor]

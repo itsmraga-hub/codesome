@@ -9,7 +9,7 @@ namespace codesome.Data.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string CourseId { get; set; } = "";
         public Course Course { get; set; } = null!;
         public string CategoryId { get; set; } = "";

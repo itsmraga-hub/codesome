@@ -11,8 +11,8 @@ using codesome.Data;
 namespace codesome.Migrations
 {
     [DbContext(typeof(codesomeContext))]
-    [Migration("20240521080343_ChangeUserTypeToString")]
-    partial class ChangeUserTypeToString
+    [Migration("20240527140102_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,11 +23,11 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("CategoryCourse", b =>
                 {
-                    b.Property<int>("CourseCategoriesId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseCategoriesId")
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("CoursesId")
-                        .HasColumnType("int");
+                    b.Property<string>("CoursesId")
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("CourseCategoriesId", "CoursesId");
 
@@ -38,19 +38,13 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Courses.Course", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("AuthorId")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("CourseAuthorId")
+                    b.Property<string>("AuthorId")
                         .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("CourseCategoryId")
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -88,8 +82,8 @@ namespace codesome.Migrations
                     b.Property<int>("StudentsEnrolled")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TagId")
-                        .HasColumnType("int");
+                    b.Property<string>("TagId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -106,8 +100,6 @@ namespace codesome.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("CourseCategoryId");
-
                     b.HasIndex("TagId");
 
                     b.ToTable("Courses");
@@ -115,16 +107,17 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Courses.Review", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -144,9 +137,6 @@ namespace codesome.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<int?>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
@@ -171,15 +161,12 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CourseCategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -221,22 +208,22 @@ namespace codesome.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("CourseCategoryId");
-
                     b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("codesome.Data.Models.CourseCategory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("CategoryId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -273,15 +260,13 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Models.CourseTag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int?>("CourseCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -300,8 +285,9 @@ namespace codesome.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
+                    b.Property<string>("TagId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetime(6)");
@@ -312,8 +298,6 @@ namespace codesome.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseCategoryId");
-
                     b.HasIndex("CourseId");
 
                     b.HasIndex("TagId");
@@ -323,12 +307,13 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Models.Lesson", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -381,12 +366,13 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Models.StudentEnrollment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -430,9 +416,9 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Models.Tag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -567,11 +553,9 @@ namespace codesome.Migrations
                 {
                     b.HasOne("codesome.Data.Models.User", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId");
-
-                    b.HasOne("codesome.Data.Models.CourseCategory", null)
-                        .WithMany("Courses")
-                        .HasForeignKey("CourseCategoryId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("codesome.Data.Models.Tag", null)
                         .WithMany("Courses")
@@ -604,10 +588,6 @@ namespace codesome.Migrations
                     b.HasOne("codesome.Data.Models.Category", null)
                         .WithMany("AllCategories")
                         .HasForeignKey("CategoryId");
-
-                    b.HasOne("codesome.Data.Models.CourseCategory", null)
-                        .WithMany("AllCategories")
-                        .HasForeignKey("CourseCategoryId");
                 });
 
             modelBuilder.Entity("codesome.Data.Models.CourseCategory", b =>
@@ -631,10 +611,6 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Models.CourseTag", b =>
                 {
-                    b.HasOne("codesome.Data.Models.CourseCategory", null)
-                        .WithMany("CourseTags")
-                        .HasForeignKey("CourseCategoryId");
-
                     b.HasOne("codesome.Data.Courses.Course", "Course")
                         .WithMany("CourseTags")
                         .HasForeignKey("CourseId")
@@ -692,15 +668,6 @@ namespace codesome.Migrations
             modelBuilder.Entity("codesome.Data.Models.Category", b =>
                 {
                     b.Navigation("AllCategories");
-                });
-
-            modelBuilder.Entity("codesome.Data.Models.CourseCategory", b =>
-                {
-                    b.Navigation("AllCategories");
-
-                    b.Navigation("CourseTags");
-
-                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("codesome.Data.Models.Tag", b =>

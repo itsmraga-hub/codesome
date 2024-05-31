@@ -105,9 +105,9 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Courses.Review", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Comment")
                         .IsRequired()
@@ -211,9 +211,9 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Models.CourseCategory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("CategoryId")
                         .IsRequired()
@@ -258,9 +258,9 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Models.CourseTag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("CourseId")
                         .IsRequired()
@@ -364,9 +364,9 @@ namespace codesome.Migrations
 
             modelBuilder.Entity("codesome.Data.Models.StudentEnrollment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("CourseId")
                         .IsRequired()

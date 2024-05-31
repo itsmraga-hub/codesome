@@ -19,8 +19,11 @@
             <MudDrawer @bind-Open="@_drawerOpen">
                 <NavMenu />
             </MudDrawer>
-            <MudMainContent Class="pa-2">
-                @Body
+            <MudMainContent Class="pt-5 mt-lg-5 flex-column align-content-center justify-content-center" Style="border: 1px solid red;">
+                <MudSpacer />
+                    <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="pt-5 mt-lg-5">
+                            @Body
+                    </MudContainer>
             </MudMainContent>
         </Authorized>
         <NotAuthorized>
@@ -32,21 +35,16 @@
                     <MudNavLink Href="/login" Match="NavLinkMatch.All">Login</MudNavLink>
                 </div>
             </MudAppBar>
-            <MudMainContent Class="pa-2">
-                @Body
+            <MudMainContent Class="pa-2 mt-lg-5">
+                <MudContainer Class="mt-lg-5">
+                    <MudContainer Class="mt-lg-5">
+                        @Body
+                    </MudContainer>
+                </MudContainer>
             </MudMainContent>
         </NotAuthorized>
     </AuthorizeView>
-    <AuthorizeView Roles="Student">
-        <Authorized>
-                <MudText Typo="Typo.body2">© 2021 Admin</MudText>
-                <MudText Typo="Typo.body2">© 2021 Codesome</MudText>
-        </Authorized>
-        <NotAuthorized>
-                <MudText Typo="Typo.body2">© 2021 Student</MudText>
-                <MudText Typo="Typo.body2">© 2021 Codesome</MudText>
-        </NotAuthorized>
-    </AuthorizeView>
+
 </MudLayout>
 
 @code {

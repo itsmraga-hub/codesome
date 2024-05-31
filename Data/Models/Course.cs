@@ -23,6 +23,7 @@ namespace codesome.Data.Courses
         public ICollection<Review> Reviews { get; set; } = new List<Review>();
         public ICollection<Category> CourseCategories { get; set; } = new List<Category>();
         public ICollection<CourseTag> CourseTags { get; set; } = new List<CourseTag>();
+        public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
     }
 }

@@ -12,7 +12,7 @@ namespace codesome.Data.Services.Courses
             _context = context;
             _logger = logger;
         }
-        public Task CreateCourseCategoryAsync(Category category)
+        public Task CreateCategoryAsync(Category category)
         {
             if (category == null)
             {
@@ -24,26 +24,26 @@ namespace codesome.Data.Services.Courses
             return Task.CompletedTask;
         }
 
-        public async Task<List<Category>?> GetCourseCategoriesAsync()
+        public async Task<List<Category>?> GetCategoriesAsync()
         {
-            if (_context.CourseCategories == null)
+            if (_context.Categories == null)
             {
                 return null!;
             }
             return await _context.Categories.ToListAsync();
         }
 
-        public Task<Category?> GetCourseCategoryAsync(int id)
+        public Task<Category?> GetCategoryAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Lesson>> GetCourseCategoryCoursesAsync(int categoryId)
+        public Task<List<Lesson>> GetCategoryCoursesAsync(int categoryId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> PutCourseCategoryAsync(int id, Category category)
+        public Task<bool> PutCategoryAsync(int id, Category category)
         {
             throw new NotImplementedException();
         }

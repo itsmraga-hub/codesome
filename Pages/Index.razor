@@ -25,7 +25,7 @@
             </MudItem>
         </MudGrid>
     </Authorized>
-    <NotAuthorized>
+@*     <NotAuthorized>
         <MudAppBar Elevation="4" Dense="true">
             <MudText Style="color: black">Codesome</MudText>
             <MudSpacer />
@@ -36,10 +36,10 @@
                 <MudNavLink Href="/login" Match="NavLinkMatch.All">Login</MudNavLink>
             </div>
         </MudAppBar>
-    </NotAuthorized>
+    </NotAuthorized> *@
 </AuthorizeView>
 
-<AuthorizeView Roles="Administrator">
+@* <AuthorizeView Roles="Administrator">
     <Authorized>
         <MudText Typo="Typo.body2">© 2021 Admin</MudText>
         <MudText Typo="Typo.body2">© 2021 Admin</MudText>
@@ -50,7 +50,7 @@
         <MudText Typo="Typo.body2">© 2021 Student</MudText>
         <MudText Typo="Typo.body2">© 2021 Codesome</MudText>
     </NotAuthorized>
-</AuthorizeView>
+</AuthorizeView> *@
 
 
 @code {

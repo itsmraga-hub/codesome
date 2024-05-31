@@ -32,7 +32,7 @@
                     <MudCard>
                         <MudCardContent>
                             <MudGrid>
-                                <MudItem xs="12" sm="4">
+                                <MudItem xs="12" sm="12">
                                     <MudTextField Label="Category Title" HelperText="Max. 8 characters"
                                                   @bind-Value="category.Name" For="@(() => category.Name)" />
                                 </MudItem>
@@ -84,7 +84,7 @@
             // Console.WriteLine(JsonConvert.SerializeObject(userSession));
             category.CreatedBy = uid!;
 
-            await _categoriesService.CreateCourseCategoryAsync(category);
+            await _categoriesService.CreateCategoryAsync(category);
             // Optionally, you can navigate to the "Courses" page after creating the course
             // NavigationManager.NavigateTo("/courses");
         }

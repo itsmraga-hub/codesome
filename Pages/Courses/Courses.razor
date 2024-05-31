@@ -14,11 +14,9 @@
 @inject IStudentEnrollmentService _studentEnrollmentService
 @inject IDialogService DialogService
 @inject ILocalStorageService _LocalStorage
+@inject ICourseCategoriesService _courseCategoriesService
+@inject NavigationManager NavigationManager
 
-
-<h1>Courses</h1>
-
-<p>This component demonstrates fetching data from a service.</p>
 
 @if (courses == null)
 {
@@ -26,7 +24,10 @@
 }
 else
 {
-    <MudTable Items="@courses">
+    <MudButton @onclick="OpenDialog" Variant="Variant.Filled" Color="Color.Primary">
+        Add Course
+    </MudButton>
+    <MudTable Items="@courses" T="Course" OnRowClick="OpenCoursePage" @bind-SelectedItem="course">
         <ToolBarContent>
             <MudText Typo="Typo.h6">Courses</MudText>
         </ToolBarContent>
@@ -52,7 +53,7 @@ else
                 else
                 {
                     <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="true">Enroll</MudButton>
-                })
+                }
             </MudTd>
         </RowTemplate>
         <PagerContent>
@@ -70,6 +71,7 @@ else
 
 @code {
     private List<Course> courses = new List<Course>();
+    private Course course = new Course();
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.Right;
     private bool hidePageNumber;
     private bool hidePagination;
@@ -83,9 +85,11 @@ else
         var uID = await _LocalStorage.GetItemAsync<string>("__id");
         userID = uID!;
         var res = await _coursesService.GetCoursesAsync();
+
         if (res != null)
         {
             courses = res;
+            // Console.WriteLine(JsonConvert.SerializeObject(courses));
         }
     }
 
@@ -112,5 +116,16 @@ else
         {
             Console.WriteLine("Not Enrolled");
         };
+    }
+
+    private void OpenDialog()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true, FullWidth = true, MaxWidth = MaxWidth.ExtraLarge };
+        DialogService.Show<AddCourse>("Add Course", options);
+    }
+
+    void OpenCoursePage(TableRowClickEventArgs<Course> tableRowClickEventArgs)
+    {
+        NavigationManager.NavigateTo($"/courses/{course.Id}");
     }
 }

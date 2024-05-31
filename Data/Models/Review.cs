@@ -9,7 +9,7 @@ namespace codesome.Data.Courses
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public string Comment { get; set; } = "";
         public int? Rating { get; set; }
 

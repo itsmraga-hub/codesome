@@ -25,19 +25,29 @@ namespace codesome.Data.Services.Lessons
         }
 
 
-        Task<List<Lesson>?> ILessonsService.GetLessonsAsync()
+        public Task<List<Lesson>?> GetLessonsAsync()
         {
             if (_context.Lessons == null)
             {
                 return null!;
             }
-            var lessons = _context.Lessons.Include(l => l.Course).ToListAsync();
+            var lessons = _context.Lessons.ToListAsync();
 
             return lessons!;
         }
 
+        public Task<List<Lesson>> GetCourseLessonsAsync(string id)
+        {
+            if (_context.Lessons == null)
+            {
+                return null!;
+            }
+            var lessons = _context.Lessons.Where(_ => _.CourseId == id).ToListAsync();
 
-        Task<Lesson?> ILessonsService.GetLessonAsync(int id)
+            return lessons!;
+        }
+
+        public Task<Lesson?> GetLessonAsync(int id)
         {
             if (_context.Lessons == null)
             {
@@ -48,12 +58,12 @@ namespace codesome.Data.Services.Lessons
             return (Task<Lesson?>)lesson;
         }
 
-        Task<bool> ILessonsService.PutLessonAsync(int id, Lesson lesson)
+        public Task<bool> PutLessonAsync(int id, Lesson lesson)
         {
             throw new NotImplementedException();
         }
 
-        Task ILessonsService.CreateLessonAsync(Lesson lesson)
+        public Task CreateLessonAsync(Lesson lesson)
         {
             if (lesson == null)
             {
@@ -65,5 +75,6 @@ namespace codesome.Data.Services.Lessons
 
             return Task.CompletedTask;
         }
+
     }
 }

@@ -45,6 +45,7 @@ builder.Services.AddTransient<ILessonsService, LessonsService>();
 builder.Services.AddTransient<IStudentEnrollmentService, StudentEnrollmentService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+builder.Services.AddScoped<ICourseCategoriesService, CourseCategoriesService>();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddRoles<IdentityRole>().AddEntityFrameworkStores<codesomeContext>();
 
 var app = builder.Build();

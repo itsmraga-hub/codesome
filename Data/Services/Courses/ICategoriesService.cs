@@ -5,10 +5,10 @@ namespace codesome.Data.Services.Courses
 {
     public interface ICategoriesService
     {
-        Task<List<Category>?> GetCourseCategoriesAsync();
-        Task<Category?> GetCourseCategoryAsync(int id);
-        Task<bool> PutCourseCategoryAsync(int id, Category category);
-        Task CreateCourseCategoryAsync(Category category);
-        Task<List<Lesson>> GetCourseCategoryCoursesAsync(int categoryId);
+        Task<List<Category>?> GetCategoriesAsync();
+        Task<Category?> GetCategoryAsync(int id);
+        Task<bool> PutCategoryAsync(int id, Category category);
+        Task CreateCategoryAsync(Category category);
+        Task<List<Lesson>> GetCategoryCoursesAsync(int categoryId);
     }
 }
