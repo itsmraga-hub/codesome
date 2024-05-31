@@ -1,34 +1,101 @@
 ﻿@page "/courses/new"
-<PageTitle>Courses</PageTitle>
+@attribute [Authorize(Roles = "Administrator,Instructor")]
+<PageTitle>Add Course</PageTitle>
 
+@using Newtonsoft.Json
+@using codesome.Authentication
 @using codesome.Data
 @using codesome.Data.Courses
+@using codesome.Data.Models
 @using codesome.Data.Services;
 @using codesome.Data.Services.Courses
+@using codesome.Data.Services.Users
+@using codesome.Pages.Categories
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject IUserService _userService
+@inject ILocalStorageService _localStorage
 @inject ICoursesService _coursesService
+@inject ICategoriesService _categoriesService
 @inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+@inject ICourseCategoriesService _courseCategoriesService
 
-<h1>Create Course</h1>
-
-<form>
-    <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" class="form-control" id="title" @bind="newCourse.Title" />
-    </div>
-    <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea class="form-control" id="description" @bind="newCourse.Description"></textarea>
-    </div>
-    @* <div class="form-group">
-        <label for="category">Category:</label>
-        <input type="text" class="form-control" id="category" @bind="newCourse.Category" />
-    </div> *@
-    <div class="form-group">
-        <label for="price">Price:</label>
-        <input type="number" class="form-control" id="price" @bind="newCourse.Price" />
-    </div>
-    <button type="submit" class="btn btn-primary" @onclick="CreateCourse">Create</button>
-</form>
+<MudDialog>
+    <DialogContent>
+        <MudGrid>
+            <MudItem>
+                <MudText Typo="Typo.h4"><MudNavLink Href="/" Match="NavLinkMatch.Prefix">Codesome</MudNavLink></MudText>
+                <MudText Typo="Typo.h4">Create Course</MudText>
+            </MudItem>
+        </MudGrid>
+        <EditForm Model="@newCourse" OnValidSubmit="OnValidSubmit">
+            <DataAnnotationsValidator />
+            <MudGrid>
+                <MudItem xs="12" sm="12">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudGrid>
+                                <MudItem xs="12" sm="4">
+                                    <MudTextField Label="Course Title" HelperText="Max. 8 characters"
+                                                  @bind-Value="newCourse.Title" For="@(() => newCourse.Title)" />
+                                </MudItem>
+                                <MudItem xs="12" sm="4">
+                                    <MudNumericField Label="Course Price" HelperText="Course Price"
+                                                     @bind-Value="newCourse.Price" For="@(() => newCourse.Price)" />
+                                </MudItem>
+                                <MudItem xs="12" sm="12">
+                                    <MudTextField Label="Course Description" HelperText="Course Description"
+                                                  @bind-Value="newCourse.Description" For="@(() => newCourse.Description)" />
+                                </MudItem>
+                                @* <MudItem xs="12" sm="4">
+                                <MudTextField Label="Phone Number" HelperText="Max. 8 characters"
+                                @bind-Value="newCourse.PhoneNumber" For="@(() => newCourse.PhoneNumber)" />
+                                </MudItem> *@
+                                <MudItem xs="12" sm="4">
+                                    <MudSelect Margin="Margin.Dense" T="string" MultiSelection="true" Label="Course Category" Variant="Variant.Outlined"
+                                               @bind-Value="value"
+                                               @bind-SelectedValues="categoriesOptions"
+                                               For="@(() => value)">
+                                        @foreach (var category in categories)
+                                        {
+                                            <MudSelectItem T="string" Value="@category.Id">@category.Name</MudSelectItem>
+                                        }
+                                        <MudSelectItem T="string">
+                                            <MudButton OnClick="OpenAddCategoryModal">Add Category</MudButton>
+                                        </MudSelectItem>
+                                    </MudSelect>
+                                </MudItem>
+                                @* <MudItem xs="12" sm="4">
+                                <MudDatePicker Label="Date of Birth"
+                                DateFormat="dd-MM-yyyy"
+                                IsDateDisabledFunc="@((DateTime dt)=>((int)dt.Year > DateTime.Now.Year - 4))" />
+                                </MudItem>
+                                <MudItem xs="12" sm="4">
+                                <MudTextField Label="Email" Class="mt-3"
+                                @bind-Value="model.Email" For="@(() => model.Email)" />
+                                </MudItem>
+                                <MudItem xs="12" sm="4">
+                                <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
+                                </MudItem>
+                                <MudItem xs="12" sm="4">
+                                <MudTextField Label="Confirmation Password" HelperText="Confirm password" Class="mt-3"
+                                @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+                                </MudItem> *@
+                            </MudGrid>
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Create Course</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
 
 @if (isCreating)
 {
@@ -38,23 +105,70 @@
 @code {
     private Course newCourse = new Course();
     private bool isCreating = false;
+    private List<Category> categories = new List<Category>();
 
+    private IEnumerable<string> categoriesOptions { get; set; } = new HashSet<string>() { };
+    private string value { get; set; } = "Nothing selected";
+
+    private async void OnValidSubmit(EditContext context)
+    {
+        await CreateCourse();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var res = await _categoriesService.GetCategoriesAsync();
+        categories = res!;
+        // Console.WriteLine(JsonConvert.SerializeObject(categories));
+    }
     private async Task CreateCourse()
     {
         try
         {
             isCreating = true;
-            await _coursesService.CreateCourseAsync(newCourse);
+            // Get the current user's ID
+            var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
+            var uid = await _localStorage.GetItemAsync<string>("__id");
+            var customAuthenticationStateProvider = (CustomAuthenticationStateProvider)authenticationStateProvider;
+            var userSession = await customAuthenticationStateProvider.GetAuthenticatedUser();
+            // Console.WriteLine(JsonConvert.SerializeObject(authState));
+
+            // var user = authState.User;
+            Console.WriteLine(JsonConvert.SerializeObject(categoriesOptions));
+            newCourse.AuthorId = uid!;
+            // await _courseCategoriesService.CreateCourseCategoryAsync(newCourse);
+            var res = await _coursesService.CreateCourseAsync(newCourse);
+            if (res != null)
+            {
+                for (int i = 0; i < categoriesOptions.Count(); i++)
+                {
+                    var categoryId = categoriesOptions.ToList()[i];
+                    await _courseCategoriesService.CreateCourseCategoryAsync(categoryId, res.Id);
+                };
+            }
             // Optionally, you can navigate to the "Courses" page after creating the course
             NavigationManager.NavigateTo("/courses");
         }
         catch (Exception ex)
         {
+            Console.WriteLine(ex.Message);
             // Handle any exceptions (e.g., display an error message)
         }
         finally
         {
             isCreating = false;
         }
+    }
+
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = new();
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+
+    void OpenAddCategoryModal()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<AddCategory>("Add Category", options);
     }
 }

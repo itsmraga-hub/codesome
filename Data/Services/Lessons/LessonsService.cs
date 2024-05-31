@@ -19,51 +19,62 @@ namespace codesome.Data.Services.Lessons
             _context = context;
         }
 
-        private bool LessonExists(int id)
+        private bool LessonExists(string id)
         {
-            return (_context.Lesson?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Lessons?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
 
-        Task<List<Lesson>?> ILessonsService.GetLessonsAsync()
+        public Task<List<Lesson>?> GetLessonsAsync()
         {
-            if (_context.Lesson == null)
+            if (_context.Lessons == null)
             {
                 return null!;
             }
-            var lessons = _context.Lesson.Include(l => l.Course).ToListAsync();
+            var lessons = _context.Lessons.ToListAsync();
 
             return lessons!;
         }
 
-
-        Task<Lesson?> ILessonsService.GetLessonAsync(int id)
+        public Task<List<Lesson>> GetCourseLessonsAsync(string id)
         {
-            if (_context.Lesson == null)
+            if (_context.Lessons == null)
             {
                 return null!;
             }
-            var lesson = _context.Lesson.Include(l => l.Course);
+            var lessons = _context.Lessons.Where(_ => _.CourseId == id).ToListAsync();
+
+            return lessons!;
+        }
+
+        public Task<Lesson?> GetLessonAsync(int id)
+        {
+            if (_context.Lessons == null)
+            {
+                return null!;
+            }
+            var lesson = _context.Lessons.Include(l => l.Course);
 
             return (Task<Lesson?>)lesson;
         }
 
-        Task<bool> ILessonsService.PutLessonAsync(int id, Lesson lesson)
+        public Task<bool> PutLessonAsync(int id, Lesson lesson)
         {
             throw new NotImplementedException();
         }
 
-        Task ILessonsService.CreateLessonAsync(Lesson lesson)
+        public Task CreateLessonAsync(Lesson lesson)
         {
             if (lesson == null)
             {
                 throw new ArgumentNullException(nameof(lesson));
             }
 
-            _context.Lesson.Add(lesson);
+            _context.Lessons.Add(lesson);
             _context.SaveChanges();
 
             return Task.CompletedTask;
         }
+
     }
 }

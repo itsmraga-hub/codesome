@@ -1,8 +1,14 @@
 ﻿@page "/register"
 @layout AuthLayout
-@inject NavigationManager NavigationManager
 @using System.ComponentModel.DataAnnotations
 @using codesome.Data.Models
+@using codesome.Data.Services.Users
+@inject NavigationManager NavigationManager
+@inject IUserService _userService
+@inject AuthenticationStateProvider authenticationStateProvider
+@inject IJSRuntime JSRuntime
+@inject ISnackbar Snackbar
+@inject ILocalStorageService LocalStorage
 
 
 <PageTitle>Sign Up</PageTitle>
@@ -19,25 +25,51 @@
         <MudItem xs="12" sm="12">
             <MudCard>
                 <MudCardContent>
-                    <MudTextField Label="First name" HelperText="Max. 8 characters"
-                                  @bind-Value="model.FirstName" For="@(() => model.FirstName)" />
-                    <MudTextField Label="Last name" HelperText="Max. 8 characters"
-                                  @bind-Value="model.LastName" For="@(() => model.LastName)" />
-                    <MudTextField Label="User name" HelperText="Max. 8 characters"
-                                  @bind-Value="model.Username" For="@(() => model.Username)" />
-                    <MudTextField Label="User name" HelperText="Max. 8 characters"
-                                  @bind-Value="model.PhoneNumber" For="@(() => model.PhoneNumber)" />
-                    <MudNumericField Label="Age" HelperText="Max. 8 characters"
-                                  @bind-Value="model.Age" For="@(() => model.Age)" />
-                    <MudTextField Label="Email" Class="mt-3"
-                                  @bind-Value="model.Email" For="@(() => model.Email)" />
-                    <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
-                                  @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
-                    <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
-                                  @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+                    <MudGrid>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="First name" HelperText="Max. 8 characters"
+                                          @bind-Value="model.FirstName" For="@(() => model.FirstName)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="Last name" HelperText="Max. 8 characters"
+                                          @bind-Value="model.LastName" For="@(() => model.LastName)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="User name" HelperText="Max. 8 characters"
+                                          @bind-Value="model.Username" For="@(() => model.Username)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="Phone Number" HelperText="Max. 8 characters"
+                                          @bind-Value="model.PhoneNumber" For="@(() => model.PhoneNumber)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudSelect Margin="Margin.Dense" T="string" Label="Role" Variant="Variant.Outlined" @bind-Value="model.Role" For="@(() => model.Role)">
+                                <MudSelectItem Value="@("Student")" />
+                                <MudSelectItem Value="@("Instructor")" />
+                                <MudSelectItem Value="@("Administrator")" />
+                            </MudSelect>
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudDatePicker Label="Date of Birth"
+                                DateFormat="dd-MM-yyyy"
+                                           IsDateDisabledFunc="@((DateTime dt)=>((int)dt.Year > DateTime.Now.Year - 4))" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="Email" Class="mt-3"
+                                          @bind-Value="model.Email" For="@(() => model.Email)" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                                          @bind-Value="model.Password" For="@(() => model.Password)" InputType="InputType.Password" />
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <MudTextField Label="Confirmation Password" HelperText="Confirm password" Class="mt-3"
+                                          @bind-Value="model.Password2" For="@(() => model.Password2)" InputType="InputType.Password" />
+                        </MudItem>
+                    </MudGrid>
                 </MudCardContent>
                 <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Login</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
                 </MudCardActions>
             </MudCard>
         </MudItem>

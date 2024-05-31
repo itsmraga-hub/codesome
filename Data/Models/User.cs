@@ -8,15 +8,13 @@ namespace codesome.Data.Models
     public class User : IdentityUser
     {
         public int age { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; } = DateTime.Now.Date;
+        public string Role { get; set; } = "Default";
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
         public string ProfilePictureUrl { get; set; } = "";
-        public UserRole Role { get; set; } = UserRole.Student;
         public string Bio { get; set; } = "";
-        public DateTime DateJoined { get; set; }
-
-        // Additional properties or methods can be added here
+        public DateTime DateJoined { get; set; } = DateTime.Now.Date;
     }
 
     public enum UserRole
@@ -24,7 +22,7 @@ namespace codesome.Data.Models
         Default,
         Student,
         Instructor,
-        Admin
+        Administrator
     }
 
 }

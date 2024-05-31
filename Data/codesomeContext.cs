@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using codesome.Data.Courses;
 using codesome.Data.Models;
 
@@ -15,9 +11,13 @@ namespace codesome.Data
         {
         }
 
-        public DbSet<Course> Course { get; set; } = default!;
+        public DbSet<Course> Courses { get; set; } = default!;
 
-        public DbSet<Lesson> Lesson { get; set; } = default!;
-        public DbSet<User> User { get; set; } = default!;
+        public DbSet<Lesson> Lessons { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<StudentEnrollment> Enrollments { get; set; } = null!;
+        public DbSet<CourseCategory> CourseCategories { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<Tag> Tags { get; set; } = null!;
     }
 }

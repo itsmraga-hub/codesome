@@ -1,7 +1,8 @@
 ﻿@page "/"
-@layout AuthLayout
+@layout MainLayout
 
 @using System.Net.Http.Headers;
+@using System.Security.Claims
 @inject HttpClient Http
 @inject ILocalStorageService _localStorage
 @inject ISnackbar Snackbar
@@ -9,16 +10,51 @@
 
 <PageTitle>Codesome</PageTitle>
 
-<MudAppBar Elevation="4" Dense="true">
-    <MudText Style="color: black">Codesome</MudText>
-    <MudSpacer />
+<AuthorizeView>
+    <Authorized>
+        @* <MudAppBar Elevation="4" Dense="true">
+            <MudText Style="color: black">Codesome</MudText>
+            <MudSpacer />
+            <div class="d-flex flex-row align-center gap-6 justify-center">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LogOut" Class="ml-auto">Login</MudButton>
+            </div>
+        </MudAppBar> *@
+        <MudGrid Class="mt-10">
+            <MudItem>
+                <MudText Typo="Typo.h4">Welcome @context.User.Identity!.Name to Codesome</MudText>
+            </MudItem>
+        </MudGrid>
+    </Authorized>
+@*     <NotAuthorized>
+        <MudAppBar Elevation="4" Dense="true">
+            <MudText Style="color: black">Codesome</MudText>
+            <MudSpacer />
 
-    <div class="d-flex flex-row align-center gap-6 justify-center">
-        <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
+            <div class="d-flex flex-row align-center gap-6 justify-center">
+                <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
 
-        <MudNavLink Href="/login" Match="NavLinkMatch.All">Login</MudNavLink>
+                <MudNavLink Href="/login" Match="NavLinkMatch.All">Login</MudNavLink>
+            </div>
+        </MudAppBar>
+    </NotAuthorized> *@
+</AuthorizeView>
 
-@*         <MudButton Class="rounded-3" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Large" OnClick="Register">Register</MudButton>
-        <MudButton Class="rounded-3" Variant="Variant.Outlined" Color="Color.Secondary" Size="Size.Large" OnClick="Login">Login</MudButton> *@
-    </div>
-</MudAppBar>
+@* <AuthorizeView Roles="Administrator">
+    <Authorized>
+        <MudText Typo="Typo.body2">© 2021 Admin</MudText>
+        <MudText Typo="Typo.body2">© 2021 Admin</MudText>
+        <MudText Typo="Typo.body2">© 2021 Codesome</MudText>
+    </Authorized>
+    <NotAuthorized>
+        <MudText Typo="Typo.body2">© 2021 Student</MudText>
+        <MudText Typo="Typo.body2">© 2021 Student</MudText>
+        <MudText Typo="Typo.body2">© 2021 Codesome</MudText>
+    </NotAuthorized>
+</AuthorizeView> *@
+
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; } = Task.FromResult(new AuthenticationState(new ClaimsPrincipal()));
+    
+}

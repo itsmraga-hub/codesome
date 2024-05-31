@@ -3,25 +3,38 @@
 @inject ILocalStorageService _localStorage
 @inject NavigationManager Navigation
 
-<MudCard Elevation="0" Square="true" Style="background-color: transparent">
-    <MudCardContent Class="d-flex flex-column justify-center py-3">
-       <MudText Typo="Typo.h6" Align="Align.Center" Style="font-weight: 600;" Color="Color.Default">codesome</MudText>
-    </MudCardContent>
-</MudCard>
-<MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
-    <MudNavLink Href="/courses" Icon="@Icons.Material.Filled.VideoFile" IconColor="Color.Primary">
-        Courses
-    </MudNavLink>
-    <MudNavLink Href="/courses/new" Icon="@Icons.Material.Filled.VideoFile" Match="NavLinkMatch.Prefix" IconColor="Color.Primary">
-        Add Course
-    </MudNavLink>
+<AuthorizeView>
+    <Authorized>
+        <MudCard Elevation="0" Square="true" Style="background-color: transparent">
+            <MudCardContent Class="d-flex flex-column justify-center py-3">
+                <MudText Typo="Typo.h6" Align="Align.Center" Style="font-weight: 600;" Color="Color.Default">codesome</MudText>
+            </MudCardContent>
+        </MudCard>
+        <MudNavMenu>
+            <MudNavLink Href="/" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+            <MudNavLink Href="/courses" Icon="@Icons.Material.Filled.VideoFile" IconColor="Color.Primary">
+                Courses
+            </MudNavLink>
+            @* <MudNavLink Href="/courses/new" Icon="@Icons.Material.Filled.VideoFile" Match="NavLinkMatch.Prefix" IconColor="Color.Primary">
+                Add Course
+            </MudNavLink> *@
+            @* <MudNavLink Href="/categories/new" Icon="@Icons.Material.Filled.VideoFile" Match="NavLinkMatch.Prefix" IconColor="Color.Primary">
+                Add Category
+            </MudNavLink> *@
+            <MudNavLink Href="/categories" Icon="@Icons.Material.Filled.VideoFile" IconColor="Color.Primary">
+                Categories
+            </MudNavLink>
+            @* <MudNavLink Href="/lessons" Match="NavLinkMatch.Prefix">Lessons</MudNavLink>
+            <MudNavLink Href="/lessons/new" Match="NavLinkMatch.Prefix">Add Lesson</MudNavLink> *@
+            <MudNavLink Href="/enrollments" Match="NavLinkMatch.Prefix">Enrollments</MudNavLink>
+            <MudNavGroup Title="Settings" Expanded="false">
+                <MudNavLink Href="/users" Match="NavLinkMatch.Prefix">Users</MudNavLink>
+                <MudNavLink Href="/security" Match="NavLinkMatch.Prefix">Security</MudNavLink>
+            </MudNavGroup>
+            <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">About</MudNavLink>
+        </MudNavMenu>
+    </Authorized>
+    <NotAuthorized>
 
-    <MudNavLink Href="/lessons" Match="NavLinkMatch.Prefix">Lessons</MudNavLink>
-    <MudNavLink Href="/lessons/new" Match="NavLinkMatch.Prefix">Add Lesson</MudNavLink>
-    <MudNavGroup Title="Settings" Expanded="false">
-        <MudNavLink Href="/users" Match="NavLinkMatch.Prefix">Users</MudNavLink>
-        <MudNavLink Href="/security" Match="NavLinkMatch.Prefix">Security</MudNavLink>
-    </MudNavGroup>
-    <MudNavLink Href="/about" Match="NavLinkMatch.Prefix">About</MudNavLink>
-</MudNavMenu>
+    </NotAuthorized>
+</AuthorizeView>

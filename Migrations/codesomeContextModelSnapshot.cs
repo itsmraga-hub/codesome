@@ -19,23 +19,44 @@ namespace codesome.Migrations
                 .HasAnnotation("ProductVersion", "6.0.29")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("codesome.Data.Courses.Course", b =>
+            modelBuilder.Entity("CategoryCourse", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("AuthorId")
+                    b.Property<string>("CourseCategoriesId")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<int>("CourseAuthorId")
-                        .HasColumnType("int");
+                    b.Property<string>("CoursesId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("CourseCategoriesId", "CoursesId");
+
+                    b.HasIndex("CoursesId");
+
+                    b.ToTable("CategoryCourse");
+                });
+
+            modelBuilder.Entity("codesome.Data.Courses.Course", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<DateTimeOffset?>("DeletedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -43,6 +64,9 @@ namespace codesome.Migrations
 
                     b.Property<DateTimeOffset>("EndDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<float>("Price")
                         .HasColumnType("float");
@@ -56,6 +80,9 @@ namespace codesome.Migrations
                     b.Property<int>("StudentsEnrolled")
                         .HasColumnType("int");
 
+                    b.Property<string>("TagId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -63,31 +90,59 @@ namespace codesome.Migrations
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("TagId");
 
                     b.ToTable("Courses");
                 });
 
             modelBuilder.Entity("codesome.Data.Courses.Review", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int?>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -102,14 +157,175 @@ namespace codesome.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("codesome.Data.Models.Category", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("isMainCategory")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("codesome.Data.Models.CourseCategory", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CategoryId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("CourseCategories");
+                });
+
+            modelBuilder.Entity("codesome.Data.Models.CourseTag", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("TagId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("CourseTags");
+                });
+
             modelBuilder.Entity("codesome.Data.Models.Lesson", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -118,10 +334,20 @@ namespace codesome.Migrations
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -134,6 +360,95 @@ namespace codesome.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Lessons");
+                });
+
+            modelBuilder.Entity("codesome.Data.Models.StudentEnrollment", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CourseId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DateCompleted")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentEnrollments");
+                });
+
+            modelBuilder.Entity("codesome.Data.Models.Tag", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DeletedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("codesome.Data.Models.User", b =>
@@ -196,8 +511,9 @@ namespace codesome.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
@@ -216,11 +532,32 @@ namespace codesome.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("CategoryCourse", b =>
+                {
+                    b.HasOne("codesome.Data.Models.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CourseCategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("codesome.Data.Courses.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("codesome.Data.Courses.Course", b =>
                 {
                     b.HasOne("codesome.Data.Models.User", "Author")
                         .WithMany()
-                        .HasForeignKey("AuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("codesome.Data.Models.Tag", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("TagId");
 
                     b.Navigation("Author");
                 });
@@ -244,6 +581,51 @@ namespace codesome.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("codesome.Data.Models.Category", b =>
+                {
+                    b.HasOne("codesome.Data.Models.Category", null)
+                        .WithMany("AllCategories")
+                        .HasForeignKey("CategoryId");
+                });
+
+            modelBuilder.Entity("codesome.Data.Models.CourseCategory", b =>
+                {
+                    b.HasOne("codesome.Data.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("codesome.Data.Courses.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("codesome.Data.Models.CourseTag", b =>
+                {
+                    b.HasOne("codesome.Data.Courses.Course", "Course")
+                        .WithMany("CourseTags")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("codesome.Data.Models.Tag", "Tag")
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Tag");
+                });
+
             modelBuilder.Entity("codesome.Data.Models.Lesson", b =>
                 {
                     b.HasOne("codesome.Data.Courses.Course", "Course")
@@ -255,9 +637,40 @@ namespace codesome.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("codesome.Data.Models.StudentEnrollment", b =>
+                {
+                    b.HasOne("codesome.Data.Courses.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("codesome.Data.Models.User", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("codesome.Data.Courses.Course", b =>
                 {
+                    b.Navigation("CourseTags");
+
                     b.Navigation("Reviews");
+                });
+
+            modelBuilder.Entity("codesome.Data.Models.Category", b =>
+                {
+                    b.Navigation("AllCategories");
+                });
+
+            modelBuilder.Entity("codesome.Data.Models.Tag", b =>
+                {
+                    b.Navigation("Courses");
                 });
 #pragma warning restore 612, 618
         }

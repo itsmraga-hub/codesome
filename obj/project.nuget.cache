@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yMCrXQ6VdhUju92QPBP3ZmKTy27ae9sF2i4GJA4JvIfoChSmNpqGlh57zk4bCtPe6YCVZbz1/RItkDtPOBOXwA==",
+  "dgSpecHash": "Rp0v0/23q5A=",
   "success": true,
   "projectFilePath": "D:\\Projects\\PersonalProjects\\codesome\\codesome.csproj",
   "expectedPackageFiles": [
@@ -138,7 +138,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\mysqlconnector\\2.3.6\\mysqlconnector.2.3.6.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\mysqlconnector.dependencyinjection\\2.3.6\\mysqlconnector.dependencyinjection.2.3.6.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
-    "C:\\Users\\Admin\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\nuget.common\\6.6.1\\nuget.common.6.6.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\nuget.configuration\\6.6.1\\nuget.configuration.6.6.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\nuget.dependencyresolver.core\\6.6.1\\nuget.dependencyresolver.core.6.6.1.nupkg.sha512",

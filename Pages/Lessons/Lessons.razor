@@ -1,4 +1,6 @@
 ﻿@page "/lessons"
+@attribute [Authorize(Roles = "Administrator,Instructor,Student")]
+
 <PageTitle>Courses</PageTitle>
 
 @using codesome.Data
@@ -7,6 +9,8 @@
 @using codesome.Data.Services.Lessons
 @using codesome.Data.Services.Courses
 @inject ILessonsService _lessonsService
+@using System.Net.Http.Json
+@inject HttpClient httpClient
 
 <h1>Lessons</h1>
 
@@ -18,88 +22,36 @@
 }
 else
 {
-    <p>Course <em></em></p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Course Title</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-                <th>Summary</th>
-                <th>Summary</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var lesson in lessons)
-            {
-                <tr>
-                    <td>@lesson.Course.Title</td>
-                    <td>@lesson.Id</td>
-                    <td>@lesson.Title</td>
-                    <td>@lesson.Description</td>
-                    <td>@lesson.Title</td>
-                    <td>@lesson.Duration</td>
-                    <td>@lesson.Order</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <MudTable Items="@lessons">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Lessons</MudText>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>Nr</MudTh>
+            <MudTh>Sign</MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Position</MudTh>
+            <MudTh>Molar mass</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Nr">@context.Course.Title</MudTd>
+            <MudTd DataLabel="Sign">@context.Order</MudTd>
+            <MudTd DataLabel="Name">@context.CourseId</MudTd>
+            <MudTd DataLabel="Position">@context.Description</MudTd>
+            <MudTd DataLabel="Molar mass">@context.Duration</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100, int.MaxValue }"
+                           RowsPerPageString="@rowsPerPageString"
+                           InfoFormat="@infoFormat"
+                           AllItemsText="@allItemsText"
+                           HorizontalAlignment="@horizontalAlignment"
+                           HideRowsPerPage="@hideRowsPerPage"
+                           HidePageNumber="@hidePageNumber"
+                           HidePagination="@hidePagination" />
+        </PagerContent>
+    </MudTable>
 }
-
-@using System.Net.Http.Json
-@inject HttpClient httpClient
-
-<MudTable Items="@lessons">
-    <ToolBarContent>
-        <MudText Typo="Typo.h6">Lessons</MudText>
-    </ToolBarContent>
-    <HeaderContent>
-        <MudTh>Nr</MudTh>
-        <MudTh>Sign</MudTh>
-        <MudTh>Name</MudTh>
-        <MudTh>Position</MudTh>
-        <MudTh>Molar mass</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Nr">@context.Course.Title</MudTd>
-        <MudTd DataLabel="Sign">@context.Order</MudTd>
-        <MudTd DataLabel="Name">@context.CourseId</MudTd>
-        <MudTd DataLabel="Position">@context.Description</MudTd>
-        <MudTd DataLabel="Molar mass">@context.Duration</MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager PageSizeOptions="new int[] { 10, 25, 50, 100, int.MaxValue }"
-                       RowsPerPageString="@rowsPerPageString"
-                       InfoFormat="@infoFormat"
-                       AllItemsText="@allItemsText"
-                       HorizontalAlignment="@horizontalAlignment"
-                       HideRowsPerPage="@hideRowsPerPage"
-                       HidePageNumber="@hidePageNumber"
-                       HidePagination="@hidePagination" />
-    </PagerContent>
-</MudTable>
-
-@* <div class="d-flex flex-wrap mt-4">
-    <MudSelect T="HorizontalAlignment" Label="HorizontalAlignment" @bind-Value="horizontalAlignment">
-        <MudSelectItem Value="HorizontalAlignment.Center" />
-        <MudSelectItem Value="HorizontalAlignment.Left" />
-        <MudSelectItem Value="HorizontalAlignment.Right" />
-        <MudSelectItem Value="HorizontalAlignment.Start" />
-        <MudSelectItem Value="HorizontalAlignment.End" />
-    </MudSelect>
-</div>
-<div class="d-flex flex-wrap mt-4">
-    <MudTextField Label="RowsPerPageString" @bind-Value="@rowsPerPageString" Immediate />
-    <MudTextField Class="ml-4" Label="AllItemsText" @bind-Value="@allItemsText" Immediate />
-    <MudTextField Class="ml-4" Label="InfoFormat" @bind-Value="@infoFormat" Immediate />
-</div> *@
-@* <div class="d-flex flex-wrap mt-4">
-    <MudSwitch @bind-Checked="@hideRowsPerPage" Color="Color.Tertiary">HideRowsPerPage</MudSwitch>
-    <MudSwitch @bind-Checked="@hidePageNumber" Color="Color.Primary">HidePageNumber</MudSwitch>
-    <MudSwitch @bind-Checked="@hidePagination" Color="Color.Secondary">HidePagination</MudSwitch>
-</div> *@
 
 @code {
     private HorizontalAlignment horizontalAlignment = HorizontalAlignment.Right;
